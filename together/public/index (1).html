@@ -1,0 +1,2185 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>益起出發 Together For better｜創意、永續與行動徵件平台</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: {
+              950: '#091929',
+              900: '#0F2942',
+              800: '#163B5E',
+              700: '#1E4E79',
+            },
+            hope: {
+              50: '#F4F8FB',
+              100: '#E0F2FE',
+              200: '#BAE6FD',
+              500: '#0EA5E9',
+              600: '#0284C7',
+            }
+          },
+          fontFamily: {
+            sans: ['"Inter"', '"Noto Sans TC"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #F4F8FB;
+      color: #0F2942;
+      font-family: 'Inter', 'Noto Sans TC', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-sky-200 selection:text-navy-900">
+
+  <!-- ==================== 1. HEADER & NAVIGATION ==================== -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-sky-100 shadow-2xs">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+      
+      <!-- Left: Hamburger & Brand Logo -->
+      <div class="flex items-center gap-3">
+        <button id="openMenuBtn" aria-label="開啟導覽選單" class="p-2 rounded-xl text-navy-800 hover:text-sky-600 hover:bg-sky-50 transition">
+          <i class="fa-solid fa-bars text-lg"></i>
+        </button>
+
+        <a href="/" title="回到介紹頁" class="flex items-center gap-2.5 group">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-navy-900 to-sky-600 flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition">
+            <i class="fa-solid fa-paper-plane text-sm"></i>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-lg font-black tracking-tight text-navy-900 leading-none">益起出發</span>
+            <span class="text-[10px] font-bold tracking-widest text-sky-600 mt-0.5">Together For better</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Center: Clean Search Input -->
+      <div class="flex-1 max-w-md mx-2">
+        <div class="relative">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-sky-600/70 text-xs"></i>
+          <input 
+            id="searchInput" 
+            type="text" 
+            placeholder="搜尋名稱、主辦單位、關鍵字..." 
+            class="w-full pl-9 pr-8 py-2 bg-hope-50 border border-sky-200/80 focus:border-sky-500 focus:bg-white rounded-full text-xs sm:text-sm text-navy-900 placeholder-slate-400 focus:outline-none transition"
+          />
+          <button id="clearSearchBtn" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-navy-900 text-xs">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Right: CTA & Login -->
+      <div class="flex items-center gap-2 sm:gap-2.5">
+        <a href="#ai-smart-bar" class="hidden md:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 font-bold text-xs transition">
+          <i class="fa-solid fa-wand-magic-sparkles text-sky-500"></i>
+          <span>智慧媒合</span>
+        </a>
+        <button onclick="openHostModal()" class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-navy-900 hover:bg-sky-600 text-white font-bold text-xs sm:text-sm shadow-2xs transition">
+          <i class="fa-solid fa-plus text-xs"></i>
+          <span>辦比賽</span>
+        </button>
+        <button onclick="openAuthModal()" class="px-3.5 py-2 rounded-full border border-sky-200 hover:border-sky-500 bg-white hover:bg-sky-50/60 text-navy-900 text-xs sm:text-sm font-semibold transition whitespace-nowrap">
+          <span id="userStatusText">登入 / 註冊</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ==================== SLIDE-OUT DRAWER MENU (2-COLUMN CLEAN HOPE STYLE) ==================== -->
+  <div id="drawerOverlay" class="fixed inset-0 z-50 hidden">
+    <div id="drawerBackdrop" class="fixed inset-0 bg-navy-950/40 backdrop-blur-xs"></div>
+    <aside class="relative w-80 max-w-[85vw] bg-white text-navy-900 h-full z-10 flex flex-col justify-between border-r border-sky-100 shadow-2xl overflow-y-auto">
+      
+      <div class="p-5">
+        <!-- Top Close & Auth Button -->
+        <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+          <div class="flex items-center gap-2">
+            <span class="w-7 h-7 rounded-lg bg-navy-900 text-white flex items-center justify-center text-xs">
+              <i class="fa-solid fa-paper-plane"></i>
+            </span>
+            <div class="flex flex-col">
+              <span class="font-black text-sm text-navy-900 leading-none">益起出發導覽</span>
+              <span class="text-[10px] font-bold text-sky-600 mt-0.5">Together For better</span>
+            </div>
+          </div>
+          <button id="closeMenuBtn" class="w-8 h-8 rounded-lg hover:bg-sky-50 text-slate-400 hover:text-navy-900 flex items-center justify-center transition">
+            <i class="fa-solid fa-xmark text-lg"></i>
+          </button>
+        </div>
+
+        <button onclick="closeDrawer(); openAuthModal();" class="w-full mt-4 py-2.5 rounded-xl border border-sky-300 bg-sky-50/70 hover:bg-sky-100 text-navy-900 font-bold text-sm transition">
+          登入 / 註冊行動帳號
+        </button>
+
+        <!-- Section 1: 找獎助、補助與競賽（選項由後端 /api/grants/meta 產生） -->
+        <div class="mt-6">
+          <p class="text-xs font-bold tracking-wider text-sky-700 mb-2.5 flex items-center gap-1.5">
+            <i class="fa-solid fa-flag"></i> 找獎助、補助與競賽
+          </p>
+          <div id="drawerCategoryGrid" class="grid grid-cols-2 border border-sky-100 rounded-xl overflow-hidden text-sm bg-hope-50/50">
+            <!-- 由 JS 產生 -->
+          </div>
+        </div>
+
+        <!-- Section 2: 益起資源 -->
+        <div class="mt-5">
+          <p class="text-xs font-bold tracking-wider text-sky-700 mb-2.5 flex items-center gap-1.5">
+            <i class="fa-solid fa-compass"></i> 益起資源
+          </p>
+          <div class="grid grid-cols-2 border border-sky-100 rounded-xl overflow-hidden text-sm bg-hope-50/50">
+            <button onclick="closeDrawer(); showToast('已切換至歷屆得獎作品集專區');" class="text-left px-3.5 py-2.5 border-r border-sky-100 hover:bg-sky-50 font-medium transition">作品集</button>
+            <button onclick="closeDrawer(); showToast('已切換至青年永續工作坊與活動');" class="text-left px-3.5 py-2.5 hover:bg-sky-50 font-medium transition">找活動</button>
+          </div>
+        </div>
+
+        <!-- Section 3: 主辦單位專區 -->
+        <div class="mt-5">
+          <p class="text-xs font-bold tracking-wider text-sky-700 mb-2.5 flex items-center gap-1.5">
+            <i class="fa-solid fa-building-ngo"></i> 主辦單位專區
+          </p>
+          <div class="grid grid-cols-2 border border-sky-100 rounded-xl overflow-hidden text-sm bg-hope-50/50">
+            <button onclick="closeDrawer(); openHostModal('活動宣傳曝光');" class="text-left px-3.5 py-2.5 border-b border-r border-sky-100 hover:bg-sky-50 font-medium transition">宣傳曝光</button>
+            <button onclick="closeDrawer(); openHostModal('競賽網站模組');" class="text-left px-3.5 py-2.5 border-b border-sky-100 hover:bg-sky-50 font-medium transition">徵件平台</button>
+            <button onclick="closeDrawer(); openHostModal('整合專案企劃');" class="text-left px-3.5 py-2.5 border-r border-sky-100 hover:bg-sky-50 font-medium transition">公益共創合作</button>
+            <button onclick="closeDrawer(); openHostModal('免費張貼賽事');" class="text-left px-3.5 py-2.5 hover:bg-sky-50 font-medium transition">活動張貼</button>
+          </div>
+        </div>
+
+        <!-- Section 4: 關於我們 -->
+        <div class="mt-5">
+          <p class="text-xs font-bold tracking-wider text-sky-700 mb-2.5 flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-info"></i> 關於我們
+          </p>
+          <div class="grid grid-cols-2 border border-sky-100 rounded-xl overflow-hidden text-sm bg-hope-50/50">
+            <a href="#footer-section" onclick="closeDrawer()" class="px-3.5 py-2.5 border-b border-r border-sky-100 hover:bg-sky-50 font-medium transition">平台理念</a>
+            <a href="#footer-section" onclick="closeDrawer()" class="px-3.5 py-2.5 border-b border-sky-100 hover:bg-sky-50 font-medium transition">常見問題</a>
+            <a href="#footer-section" onclick="closeDrawer()" class="px-3.5 py-2.5 border-r border-sky-100 hover:bg-sky-50 font-medium transition">媒體報導</a>
+            <a href="#footer-section" onclick="closeDrawer()" class="px-3.5 py-2.5 hover:bg-sky-50 font-medium transition">加入我們</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-5 border-t border-slate-100 bg-hope-50 text-xs text-slate-500">
+        © 2026 益起出發 Together For better
+      </div>
+    </aside>
+  </div>
+
+  <!-- ==================== 2. HERO HOPE BANNER SECTION ==================== -->
+  <section class="relative overflow-hidden bg-gradient-to-b from-sky-100/70 via-white to-hope-50 border-b border-sky-100 py-12 sm:py-16">
+    <!-- Decorative Soft Blue Light Circles -->
+    <div class="pointer-events-none absolute -top-24 -left-24 w-96 h-96 rounded-full bg-sky-200/40 blur-3xl"></div>
+    <div class="pointer-events-none absolute top-10 -right-24 w-80 h-80 rounded-full bg-blue-200/30 blur-3xl"></div>
+
+    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      
+      <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-sky-100 border border-sky-200 text-sky-700 text-xs font-bold mb-4">
+        <i class="fa-solid fa-seedling text-sky-600"></i> 益起出發 Together For better・獎助學金、政府補助與競賽媒合平台
+      </span>
+
+      <h1 class="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight text-navy-900 leading-tight">
+        點亮希望，讓每一份努力都有後盾
+      </h1>
+      <p class="mt-3 text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
+        收錄 <strong><span id="heroTotalCount">—</span> 筆</strong>國內外獎助學金、政府補助、競賽與國際資源，每筆都附官方或參考網站連結，其中 <strong><span id="heroVerifiedCount">—</span> 筆</strong>已查證最新時程。申請前請務必以官方公告為準。
+      </p>
+
+      <!-- Live Statistics Card -->
+      <div class="mt-8 max-w-2xl mx-auto bg-white border border-sky-200/90 rounded-2xl p-4 sm:p-5 grid grid-cols-3 divide-x divide-sky-100 shadow-md shadow-sky-900/5">
+        <div class="px-2 sm:px-4 text-center">
+          <p class="text-[11px] sm:text-xs text-slate-500 font-semibold">資料庫總收錄</p>
+          <p class="mt-1 text-xl sm:text-3xl font-black text-navy-900">
+            <span id="statTotalDbCount">—</span>
+            <span class="text-xs font-bold text-sky-600 ml-0.5">筆</span>
+          </p>
+        </div>
+        <div class="px-2 sm:px-4 text-center">
+          <p class="text-[11px] sm:text-xs text-slate-500 font-semibold">符合篩選條件</p>
+          <p class="mt-1 text-xl sm:text-3xl font-black text-sky-600">
+            <span id="statActiveCount">—</span>
+            <span class="text-xs font-bold text-navy-800 ml-0.5">筆</span>
+          </p>
+        </div>
+        <div class="px-2 sm:px-4 text-center">
+          <p class="text-[11px] sm:text-xs text-slate-500 font-semibold">其中已查證時程</p>
+          <p class="mt-1 text-xl sm:text-3xl font-black text-sky-600">
+            <span id="statVerifiedCount">—</span>
+            <span class="text-xs font-bold text-navy-800 ml-0.5">筆</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick Hero Action Buttons -->
+      <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
+        <a href="#competitions-section" class="px-5 py-2.5 rounded-full bg-navy-900 hover:bg-sky-600 text-white font-bold text-xs sm:text-sm shadow-sm transition">
+          立即查詢全部資料
+        </a>
+        <button onclick="quickFilterDisadvantaged()" class="px-5 py-2.5 rounded-full bg-sky-500 hover:bg-sky-600 text-white font-bold text-xs sm:text-sm shadow-sm transition inline-flex items-center gap-1.5">
+          <i class="fa-solid fa-hand-holding-heart"></i>
+          <span>清寒與經濟弱勢助學金</span>
+        </button>
+        <button onclick="showVerifiedOnly()" class="px-5 py-2.5 rounded-full bg-white hover:bg-sky-50 text-navy-800 border border-sky-200 font-bold text-xs sm:text-sm transition inline-flex items-center gap-1.5">
+          <i class="fa-solid fa-circle-check text-sky-500"></i>
+          <span>只看已查證時程</span>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== 3. AI SMART FILTER & MULTI-DIMENSIONAL FILTER SYSTEM ==================== -->
+  <main id="competitions-section" class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-10">
+    
+    <!-- ✨ AI SMART FILTER BAR (AI 自然語言智慧篩選助手) -->
+    <div id="ai-smart-bar" class="mb-6 rounded-2xl bg-gradient-to-r from-navy-900 via-navy-800 to-sky-800 p-4 sm:p-5 text-white shadow-md border border-sky-400/20">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <div class="space-y-1">
+          <div class="inline-flex items-center gap-2 text-sky-300 text-xs font-extrabold tracking-wider uppercase">
+            <span class="w-2 h-2 rounded-full bg-sky-400 animate-ping"></span>
+            <span>Smart Matcher ・ 用一句話找出適合你的獎助與補助</span>
+          </div>
+          <h2 class="text-base sm:text-lg font-black text-white">
+            不知道從哪裡找起？用一句話描述你的身分和需求！
+          </h2>
+        </div>
+
+        <!-- Example Prompts -->
+        <div class="flex flex-wrap items-center gap-1.5 text-[11px]">
+          <span class="text-sky-200/80 font-medium">試試範例：</span>
+          <button onclick="fillAndRunSmartPrompt('我是低收入戶的大學生，想找還沒截止的助學金')" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-sky-500/40 border border-white/15 text-sky-100 transition">
+            「清寒大學生找助學金」
+          </button>
+          <button onclick="fillAndRunSmartPrompt('我們是學生團隊，有一個 AI 點子想參加比賽')" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-sky-500/40 border border-white/15 text-sky-100 transition">
+            「學生團隊找 AI 比賽」
+          </button>
+          <button onclick="fillAndRunSmartPrompt('台北的新創公司想找研發補助，至少 100 萬')" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-sky-500/40 border border-white/15 text-sky-100 transition">
+            「台北新創找研發補助」
+          </button>
+        </div>
+      </div>
+
+      <!-- AI Input Form -->
+      <form onsubmit="handleAISmartFilter(event)" class="mt-3.5 flex flex-col sm:flex-row gap-2.5">
+        <div class="relative flex-1">
+          <i class="fa-solid fa-wand-magic-sparkles absolute left-4 top-1/2 -translate-y-1/2 text-sky-400 text-sm"></i>
+          <input 
+            id="aiPromptInput" 
+            type="text" 
+            maxlength="300" placeholder="例如：我是單親家庭的大學生，想找還沒截止、可以補助生活費的助學金" 
+            class="w-full pl-10 pr-4 py-3 rounded-xl bg-white/95 text-navy-900 placeholder-slate-400 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-sky-400"
+          />
+        </div>
+        <button id="aiSmartBtn" type="submit" class="px-5 py-3 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-extrabold text-xs sm:text-sm transition flex items-center justify-center gap-2 shrink-0 shadow-sm">
+          <i id="aiSmartIcon" class="fa-solid fa-bolt"></i>
+          <span id="aiSmartBtnText">自動解析並篩選</span>
+        </button>
+      </form>
+
+      <!-- AI Reasoning Result Banner -->
+      <div id="aiFilterInsight" class="hidden mt-3 pt-3 border-t border-white/15 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-sky-100">
+        <div class="flex items-start sm:items-center gap-2">
+          <i class="fa-solid fa-robot text-sky-300 mt-0.5 sm:mt-0"></i>
+          <span id="aiFilterInsightText"></span>
+        </div>
+        <button onclick="document.getElementById('aiFilterInsight').classList.add('hidden')" class="text-sky-300 hover:text-white text-[11px] self-end sm:self-auto shrink-0">
+          收起提示
+        </button>
+      </div>
+    </div>
+
+    <!-- 篩選控制卡（選項由後端 /api/grants/meta 產生，結果由 /api/grants 回傳） -->
+    <div class="bg-white rounded-2xl border border-sky-100 p-4 sm:p-5 shadow-2xs mb-7 space-y-4">
+
+      <!-- Layer 1: 資金類型 (fundingType) & 檢視切換 -->
+      <div class="flex flex-col gap-3 pb-3.5 border-b border-slate-100">
+        <div id="fundingTypeTabs" class="flex flex-wrap items-center gap-1.5"></div>
+
+        <div class="flex items-center justify-end gap-2">
+
+          <button onclick="openAdvFilterModal()" class="px-3.5 py-2 rounded-xl border border-sky-200 bg-sky-50/70 hover:bg-sky-100 text-navy-900 text-xs sm:text-sm font-bold transition inline-flex items-center gap-1.5">
+            <i class="fa-solid fa-sliders text-sky-600"></i>
+            <span>進階篩選</span>
+            <span id="advFilterBadge" class="hidden px-1.5 rounded-full bg-sky-600 text-white text-[10px]">1</span>
+          </button>
+
+          <div class="inline-flex rounded-xl border border-sky-100 bg-hope-50 p-0.5">
+            <button id="viewGridBtn" onclick="setViewMode('grid')" aria-label="卡片檢視" class="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-white text-navy-900 shadow-2xs transition">
+              <i class="fa-solid fa-border-all"></i>
+            </button>
+            <button id="viewListBtn" onclick="setViewMode('list')" aria-label="列表檢視" class="px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-500 hover:text-navy-900 transition">
+              <i class="fa-solid fa-list"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Layer 1.5: 資料分類 (group) -->
+      <div id="groupTabs" class="flex flex-wrap items-center gap-1.5 pb-3 border-b border-slate-100"></div>
+
+      <!-- Layer 2: 申請者、資格、地區、階段 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 pt-0.5">
+        <div class="bg-hope-50/80 p-2.5 rounded-xl border border-sky-100">
+          <label for="filterCash" class="block text-[11px] font-bold text-slate-500 mb-1">
+            <i class="fa-solid fa-coins text-sky-600 mr-1"></i>資金性質
+          </label>
+          <p class="text-[10px] text-slate-400 mb-1.5">現金獎助、非現金、股權投資</p>
+          <select id="filterCash" onchange="setFilter('cash', this.value)" class="w-full bg-white px-2.5 py-1.5 rounded-lg border border-sky-200/80 text-xs font-bold text-navy-900 focus:outline-none focus:border-sky-500 cursor-pointer"></select>
+        </div>
+
+        <div class="bg-hope-50/80 p-2.5 rounded-xl border border-sky-100">
+          <label for="filterApplicant" class="block text-[11px] font-bold text-slate-500 mb-1">
+            <i class="fa-solid fa-user text-sky-600 mr-1"></i>誰要申請
+          </label>
+          <p class="text-[10px] text-slate-400 mb-1.5">個人、學生團隊、企業、非營利組織…</p>
+          <select id="filterApplicant" onchange="setFilter('applicant', this.value)" class="w-full bg-white px-2.5 py-1.5 rounded-lg border border-sky-200/80 text-xs font-bold text-navy-900 focus:outline-none focus:border-sky-500 cursor-pointer"></select>
+        </div>
+
+        <div class="bg-hope-50/80 p-2.5 rounded-xl border border-sky-100">
+          <label for="filterIdentity" class="block text-[11px] font-bold text-slate-500 mb-1">
+            <i class="fa-solid fa-id-card-clip text-sky-600 mr-1"></i>限定資格
+          </label>
+          <p class="text-[10px] text-slate-400 mb-1.5">只列出明確限定這個身分的項目</p>
+          <select id="filterIdentity" onchange="setFilter('identity', this.value)" class="w-full bg-white px-2.5 py-1.5 rounded-lg border border-sky-200/80 text-xs font-bold text-navy-900 focus:outline-none focus:border-sky-500 cursor-pointer"></select>
+        </div>
+
+        <div class="bg-hope-50/80 p-2.5 rounded-xl border border-sky-100">
+          <label for="filterRegion" class="block text-[11px] font-bold text-slate-500 mb-1">
+            <i class="fa-solid fa-map-location-dot text-sky-600 mr-1"></i>地區
+          </label>
+          <p class="text-[10px] text-slate-400 mb-1.5">含「不限地區」的項目</p>
+          <select id="filterRegion" onchange="setFilter('region', this.value)" class="w-full bg-white px-2.5 py-1.5 rounded-lg border border-sky-200/80 text-xs font-bold text-navy-900 focus:outline-none focus:border-sky-500 cursor-pointer"></select>
+        </div>
+
+        <div class="bg-hope-50/80 p-2.5 rounded-xl border border-sky-100">
+          <label for="filterStage" class="block text-[11px] font-bold text-slate-500 mb-1">
+            <i class="fa-solid fa-seedling text-sky-600 mr-1"></i>計畫進度
+          </label>
+          <p class="text-[10px] text-slate-400 mb-1.5">構想中、籌備中、已在執行</p>
+          <select id="filterStage" onchange="setFilter('stage', this.value)" class="w-full bg-white px-2.5 py-1.5 rounded-lg border border-sky-200/80 text-xs font-bold text-navy-900 focus:outline-none focus:border-sky-500 cursor-pointer"></select>
+        </div>
+      </div>
+
+      <!-- Layer 3: 金額、未截止、快捷標籤、排序 -->
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-3 border-t border-slate-100">
+        <div class="flex flex-wrap items-center gap-4 sm:gap-6">
+          <div class="flex items-center gap-3 bg-hope-50 px-3.5 py-2 rounded-xl border border-sky-100">
+            <div>
+              <span class="text-[11px] font-bold text-slate-500 block">最高金額至少</span>
+              <span id="minAmountLabel" class="text-xs font-black text-sky-600">不限</span>
+            </div>
+            <input id="minAmountSlider" type="range" min="0" max="1000000" step="50000" value="0"
+              oninput="previewMinAmount(this.value)" onchange="setFilter('minAmount', Number(this.value))"
+              class="w-28 sm:w-36 accent-sky-600 cursor-pointer" />
+          </div>
+
+          <label class="inline-flex items-center gap-2.5 cursor-pointer select-none bg-hope-50 px-3.5 py-2.5 rounded-xl border border-sky-100 hover:border-sky-300 transition">
+            <input id="openOnlyToggle" type="checkbox" onchange="setFilter('openOnly', this.checked)" class="sr-only peer" />
+            <div class="w-9 h-5 bg-slate-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all relative peer-checked:bg-sky-500"></div>
+            <div>
+              <span class="text-xs font-bold text-navy-900 block leading-none">排除已截止</span>
+              <span id="taipeiTodayBadge" class="text-[10px] text-slate-500">截止日未定的項目仍會顯示</span>
+            </div>
+          </label>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between lg:justify-end gap-2.5">
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <button id="pill-expiredRef" onclick="toggleQuickFilter('expiredRef')"></button>
+            <button id="pill-highPrize" onclick="toggleQuickFilter('highPrize')"></button>
+            <button id="pill-verified" onclick="toggleQuickFilter('verified')"></button>
+            <button id="pill-fav" onclick="toggleQuickFilter('fav')"></button>
+          </div>
+
+          <div class="flex items-center gap-1.5">
+            <label for="sortSelect" class="text-xs font-semibold text-slate-500">排序：</label>
+            <select id="sortSelect" onchange="setFilter('sort', this.value)" class="px-3 py-1.5 rounded-xl border border-sky-200 bg-hope-50 text-xs font-bold text-navy-900 focus:outline-none focus:border-sky-500 cursor-pointer">
+              <option value="recommended">推薦（已查證優先）</option>
+              <option value="amountDesc">依金額由高到低</option>
+              <option value="deadlineAsc">依截止日最近</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Layer 4: 目前條件 & 筆數 -->
+      <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100 text-xs">
+        <div class="flex flex-wrap items-center gap-1.5">
+          <span class="font-bold text-slate-500">符合條件共 <strong id="resultCountText" class="text-sky-600 text-sm">0</strong> 項：</span>
+          <div id="activeFilterChips" class="flex flex-wrap items-center gap-1.5"></div>
+        </div>
+        <button onclick="resetFilters()" class="text-xs font-bold text-sky-600 hover:text-navy-900 transition">
+          <i class="fa-solid fa-rotate-left mr-1"></i>重設所有條件
+        </button>
+      </div>
+
+      <!-- API 請求檢視器（學習用：看前端實際送給後端的網址） -->
+      <div id="codeInspectorPanel" class="hidden pt-3 border-t border-sky-100">
+        <div class="bg-navy-950 text-sky-200 rounded-xl p-3.5 font-mono text-xs overflow-x-auto">
+          <div class="flex items-center justify-between pb-2 mb-2 border-b border-white/10 text-[11px] text-sky-400">
+            <span><i class="fa-solid fa-terminal mr-1.5"></i>前端 → 後端 API 請求</span>
+            <span id="inspectorMatchCount" class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 font-sans font-bold">載入中</span>
+          </div>
+          <pre id="liveQueryJson" class="leading-relaxed text-[11px] text-emerald-300 whitespace-pre-wrap break-all"></pre>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Competition & Scholarship Cards Container -->
+    <div id="cardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Populated dynamically via JS -->
+    </div>
+
+    <!-- Pagination & Page Size Control Bar -->
+    <div id="paginationBar" class="mt-8 bg-white rounded-2xl border border-sky-100 p-4 shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-xs text-slate-600 font-medium">
+        目前顯示第 <strong id="pageRangeStart" class="text-navy-900">1</strong> - <strong id="pageRangeEnd" class="text-navy-900">24</strong> 筆，共 <strong id="pageTotalFiltered" class="text-sky-600 font-black">0</strong> 筆符合（資料庫共 <strong id="pageTotalDb">0</strong> 筆）
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <div class="flex items-center gap-1 text-xs mr-2">
+          <label for="pageSizeSelect" class="text-slate-500 font-semibold">每頁顯示：</label>
+          <select id="pageSizeSelect" onchange="changePageSize(Number(this.value))" class="px-2.5 py-1.5 rounded-lg border border-sky-200 bg-hope-50 font-bold text-navy-900 focus:outline-none">
+            <option value="24">24 筆</option>
+            <option value="48">48 筆</option>
+            <option value="96">96 筆</option>
+          </select>
+        </div>
+
+        <button id="prevPageBtn" onclick="goToPage(state.page - 1)" class="px-3 py-1.5 rounded-xl border border-sky-200 bg-white hover:bg-sky-50 text-navy-900 text-xs font-bold disabled:opacity-40 disabled:pointer-events-none transition">
+          <i class="fa-solid fa-chevron-left mr-1"></i>上一頁
+        </button>
+
+        <div id="pageNumbersContainer" class="flex items-center gap-1"></div>
+
+        <button id="nextPageBtn" onclick="goToPage(state.page + 1)" class="px-3 py-1.5 rounded-xl border border-sky-200 bg-white hover:bg-sky-50 text-navy-900 text-xs font-bold disabled:opacity-40 disabled:pointer-events-none transition">
+          下一頁<i class="fa-solid fa-chevron-right ml-1"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="hidden bg-white rounded-2xl border border-sky-100 p-12 text-center my-4">
+      <div class="w-12 h-12 rounded-full bg-sky-50 text-sky-500 flex items-center justify-center mx-auto mb-3 text-xl">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+      <p class="text-base font-bold text-navy-900">找不到符合篩選條件的徵件活動</p>
+      <p class="text-xs text-slate-500 mt-1">請嘗試切換分類或重設篩選條件。</p>
+      <button onclick="resetFilters()" class="mt-4 px-5 py-2.5 rounded-xl bg-navy-900 text-white text-xs font-bold hover:bg-sky-600 transition">
+        重設所有篩選條件
+      </button>
+    </div>
+
+  </main>
+
+  <!-- ==================== 5. B2B ORGANIZER SECTION ==================== -->
+  <section id="b2b-section" class="bg-white border-t border-sky-100 py-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <div>
+          <span class="text-xs font-bold tracking-widest uppercase text-sky-600">SOLUTIONS FOR ORGANIZERS</span>
+          <h2 class="text-xl sm:text-2xl font-black text-navy-900 mt-1">
+            你是辛苦的主辦單位嗎？我們提供一站式解決方案
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">從公益倡議、校園徵件到企業創新挑戰賽，協助您輕鬆完成賽事數位化與精準曝光。</p>
+        </div>
+        <button onclick="openHostModal()" class="self-start md:self-auto px-5 py-2.5 rounded-xl bg-navy-900 hover:bg-sky-600 text-white font-bold text-xs sm:text-sm transition inline-flex items-center gap-2 shadow-xs">
+          <span>進入主辦諮詢專區</span>
+          <i class="fa-solid fa-arrow-right text-sky-300"></i>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Service 1 -->
+        <div onclick="openHostModal('活動宣傳曝光')" class="cursor-pointer group rounded-2xl bg-hope-50 p-6 border border-sky-100 hover:border-sky-400 hover:bg-white hover:shadow-md transition">
+          <div class="w-11 h-11 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center text-lg mb-4 group-hover:bg-navy-900 group-hover:text-white transition">
+            <i class="fa-solid fa-bullhorn"></i>
+          </div>
+          <h3 class="text-base font-bold text-navy-900 group-hover:text-sky-600 transition">活動宣傳曝光</h3>
+          <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+            透過首頁高曝光版位、希望情報電子報、大專院校地推與社群精準投放，讓優質理念被全台青年看見。
+          </p>
+          <span class="inline-block mt-4 text-xs font-bold text-sky-600 group-hover:translate-x-1 transition">了解曝光方案 &rarr;</span>
+        </div>
+
+        <!-- Service 2 -->
+        <div onclick="openHostModal('競賽網站模組')" class="cursor-pointer group rounded-2xl bg-hope-50 p-6 border border-sky-100 hover:border-sky-400 hover:bg-white hover:shadow-md transition">
+          <div class="w-11 h-11 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center text-lg mb-4 group-hover:bg-navy-900 group-hover:text-white transition">
+            <i class="fa-solid fa-laptop-code"></i>
+          </div>
+          <h3 class="text-base font-bold text-navy-900 group-hover:text-sky-600 transition">競賽網站模組</h3>
+          <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+            內建線上報名收件、雲端大檔上傳、人氣投票與多階段專業評審系統，免去工程開發，快速打造專屬官網。
+          </p>
+          <span class="inline-block mt-4 text-xs font-bold text-sky-600 group-hover:translate-x-1 transition">查看模組版型 &rarr;</span>
+        </div>
+
+        <!-- Service 3 -->
+        <div onclick="openHostModal('整合專案企劃')" class="cursor-pointer group rounded-2xl bg-hope-50 p-6 border border-sky-100 hover:border-sky-400 hover:bg-white hover:shadow-md transition">
+          <div class="w-11 h-11 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center text-lg mb-4 group-hover:bg-navy-900 group-hover:text-white transition">
+            <i class="fa-solid fa-handshake-angle"></i>
+          </div>
+          <h3 class="text-base font-bold text-navy-900 group-hover:text-sky-600 transition">整合專案策劃</h3>
+          <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+            從賽制規則擬定、主視覺設計、校園巡迴工作坊到頒獎成果展，由百場經驗企劃團隊為您全案執行。
+          </p>
+          <span class="inline-block mt-4 text-xs font-bold text-sky-600 group-hover:translate-x-1 transition">預約企劃諮詢 &rarr;</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== 6. DEEP NAVY HOPE FOOTER ==================== -->
+  <footer id="footer-section" class="bg-navy-900 text-slate-300 border-t border-navy-800 py-12 text-xs">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 pb-10 border-b border-white/10 items-start">
+        
+        <!-- Brand Story & Community Groups (7 Cols) -->
+        <div class="md:col-span-7 space-y-4">
+          <div class="flex items-center gap-2.5 text-white font-black text-base">
+            <span class="w-7 h-7 rounded-lg bg-sky-500 text-white flex items-center justify-center text-xs">
+              <i class="fa-solid fa-paper-plane"></i>
+            </span>
+            <span>益起出發</span>
+            <span class="text-xs font-bold text-sky-400 tracking-wider">Together For better</span>
+          </div>
+          <p class="text-slate-300 leading-relaxed max-w-xl">
+            整理國內外獎助學金、政府補助與競賽資訊的媒合平台。本站只彙整資訊、不代收申請，各項資格與時程請以主辦單位官方公告為準。
+          </p>
+          <!-- Community Links -->
+          <div class="pt-2">
+            <p class="text-[11px] font-bold text-sky-400 uppercase tracking-wider mb-2.5">加入益起共創社群交流群組</p>
+            <div class="flex flex-wrap gap-2">
+              <button onclick="showToast('正在前往：益起出發《平面與產品設計交流社團》')" class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-sky-500/20 border border-white/10 text-slate-200 hover:text-white transition inline-flex items-center gap-1.5">
+                <i class="fa-solid fa-palette text-sky-400"></i> 設計共創交流區
+              </button>
+              <button onclick="showToast('正在前往：益起出發《紀實攝影與影像俱樂部》')" class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-sky-500/20 border border-white/10 text-slate-200 hover:text-white transition inline-flex items-center gap-1.5">
+                <i class="fa-solid fa-camera text-sky-400"></i> 攝影與影像俱樂部
+              </button>
+              <button onclick="showToast('正在前往：益起出發《插畫與人文寫作咖啡館》')" class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-sky-500/20 border border-white/10 text-slate-200 hover:text-white transition inline-flex items-center gap-1.5">
+                <i class="fa-solid fa-feather-pointed text-sky-400"></i> 插畫與寫作交流社
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Newsletter Subscription ("訂閱秘密情報") (5 Cols) -->
+        <div class="md:col-span-5 bg-navy-800/90 rounded-2xl p-5 border border-sky-400/20">
+          <div class="flex items-center gap-2 text-sky-300 font-bold text-xs mb-1">
+            <i class="fa-solid fa-envelope-open-text"></i>
+            <span>訂閱秘密情報・希望電子報</span>
+          </div>
+          <p class="text-slate-300 text-xs leading-relaxed mb-3.5">
+            整理新上架的獎助學金、補助與競賽情報，不錯過任何一次機會！
+          </p>
+          <form onsubmit="handleNewsletter(event)" class="flex gap-2">
+            <input 
+              id="newsletterInput" 
+              type="email" 
+              required 
+              placeholder="輸入您的常用或學校信箱 (.edu.tw)..." 
+              class="flex-1 px-3.5 py-2 rounded-xl bg-navy-950/80 border border-white/15 text-white placeholder-slate-400 text-xs focus:outline-none focus:border-sky-400"
+            />
+            <button type="submit" class="px-4 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-bold text-xs transition shrink-0">
+              我要收情報！
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-slate-400">
+        <p>© 2026 益起出發 Together For better. All Rights Reserved.</p>
+        <div class="flex items-center gap-4">
+          <a href="#competitions-section" class="hover:text-sky-300 transition">找比賽與獎助</a>
+          <a href="#b2b-section" class="hover:text-sky-300 transition">主辦單位方案</a>
+          <button onclick="openAdvFilterModal()" class="hover:text-sky-300 transition">進階篩選</button>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ==================== ADVANCED FILTER MODAL ==================== -->
+  <div id="advFilterModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+    <div onclick="closeAdvFilterModal()" class="fixed inset-0 bg-navy-950/50 backdrop-blur-xs"></div>
+    <div class="relative min-h-screen flex items-center justify-center p-4">
+      <div class="relative w-full max-w-3xl bg-white text-navy-900 rounded-2xl shadow-2xl border border-sky-100 z-10 overflow-hidden my-6">
+
+        <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-hope-50">
+          <h3 class="text-base font-black text-navy-900 flex items-center gap-2">
+            <i class="fa-solid fa-sliders text-sky-600"></i> 進階篩選
+          </h3>
+          <button onclick="closeAdvFilterModal()" aria-label="關閉" class="w-8 h-8 rounded-lg hover:bg-sky-100 text-slate-400 hover:text-navy-900 flex items-center justify-center">
+            <i class="fa-solid fa-xmark text-lg"></i>
+          </button>
+        </div>
+
+        <div id="advSections" class="p-6 max-h-[75vh] overflow-y-auto space-y-5 text-xs sm:text-sm">
+          <!-- 由 JS 依 /api/grants/meta 產生 -->
+        </div>
+
+        <div class="px-6 py-4 bg-hope-50 border-t border-slate-100 flex items-center justify-between">
+          <button onclick="resetFilters(); closeAdvFilterModal();" class="text-xs font-bold text-slate-500 hover:text-navy-900">清除全部條件</button>
+          <button onclick="closeAdvFilterModal()" class="px-6 py-2 rounded-xl bg-navy-900 hover:bg-sky-600 text-white text-xs sm:text-sm font-bold transition">
+            查看 <span id="advResultCount">0</span> 筆結果
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DETAIL MODAL ==================== -->
+  <div id="detailModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+    <div onclick="closeDetailModal()" class="fixed inset-0 bg-navy-950/60 backdrop-blur-xs"></div>
+
+    <div class="relative min-h-screen flex items-center justify-center p-3 sm:p-6">
+      <div class="relative w-full max-w-3xl bg-white text-navy-900 rounded-2xl shadow-2xl overflow-hidden z-10 border border-sky-100 my-6">
+
+        <!-- Header Cover -->
+        <div id="modalCover" class="h-44 sm:h-52 p-6 relative flex flex-col justify-between text-white bg-navy-900">
+          <div class="flex items-center justify-between relative z-10 gap-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <span id="modalCatBadge" class="px-3 py-1 rounded-full bg-white/20 backdrop-blur-xs text-white text-xs font-bold"></span>
+              <span id="modalGroupBadge" class="px-3 py-1 rounded-full bg-navy-950/50 text-sky-200 text-xs font-bold"></span>
+              <span id="modalStatusBadge" class="px-3 py-1 rounded-full text-white text-xs font-bold"></span>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <button id="modalFavBtn" onclick="toggleFav(activeGrant && activeGrant.id)" aria-label="收藏" class="w-8 h-8 rounded-full bg-black/30 hover:bg-white text-white hover:text-rose-500 flex items-center justify-center transition">
+                <i id="modalFavIcon" class="fa-regular fa-heart"></i>
+              </button>
+              <button onclick="closeDetailModal()" aria-label="關閉" class="w-8 h-8 rounded-full bg-black/30 hover:bg-black/60 text-white flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+          </div>
+          <div class="relative z-10">
+            <h2 id="modalTitle" class="text-xl sm:text-2xl font-black leading-snug"></h2>
+            <p id="modalOrganizer" class="text-xs text-sky-100 mt-1"></p>
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="p-6 sm:p-8 max-h-[75vh] overflow-y-auto space-y-6">
+
+          <!-- Key Metrics -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 bg-hope-50 p-4 rounded-xl border border-sky-100">
+            <div>
+              <span id="modalAmountTitle" class="text-[11px] text-slate-500 block">最高金額</span>
+              <span id="modalAmount" class="text-base sm:text-lg font-extrabold text-sky-600"></span>
+            </div>
+            <div>
+              <span class="text-[11px] text-slate-500 block">撥款時間</span>
+              <span id="modalPayout" class="text-base sm:text-lg font-extrabold text-navy-900"></span>
+            </div>
+            <div class="col-span-2 sm:col-span-1 border-t sm:border-t-0 pt-2 sm:pt-0 border-sky-100">
+              <span class="text-[11px] text-slate-500 block">截止日期</span>
+              <span id="modalDeadline" class="text-sm font-bold text-navy-900"></span>
+            </div>
+            <div id="modalNatureRow" class="col-span-2 sm:col-span-3 border-t border-sky-100 pt-2 text-xs">
+              <span id="modalCashBadge" class="inline-block px-2 py-0.5 rounded-md font-bold mr-1.5"></span>
+              <span id="modalNature" class="text-slate-600"></span>
+            </div>
+          </div>
+
+          <!-- Structured Tags -->
+          <div class="bg-sky-50/60 rounded-xl p-4 border border-sky-100 space-y-2 text-xs">
+            <p class="font-bold text-navy-900 flex items-center gap-1.5">
+              <i class="fa-solid fa-list-check text-sky-600"></i> 申請條件一覽
+            </p>
+            <div id="modalStructuredTags" class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1"></div>
+          </div>
+
+          <!-- 申請小幫手 -->
+          <div class="rounded-2xl border-2 border-sky-200 bg-gradient-to-br from-sky-50 via-white to-hope-50 p-5 shadow-xs">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3.5 border-b border-sky-100">
+              <div>
+                <span class="inline-flex items-center gap-1.5 text-[11px] font-extrabold text-sky-600 uppercase tracking-wider">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i> Application Helper
+                </span>
+                <h3 class="text-sm sm:text-base font-black text-navy-900 mt-0.5">申請小幫手：資格檢查 & 申請動機大綱</h3>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <button onclick="runFitCheck()" class="px-3.5 py-2 rounded-xl bg-white hover:bg-sky-100 text-navy-900 border border-sky-200 font-bold text-xs transition inline-flex items-center gap-1.5 shadow-2xs">
+                  <i class="fa-solid fa-clipboard-check text-sky-600"></i>
+                  <span>1. 檢查我的資格</span>
+                </button>
+                <button onclick="runDraftGenerator()" class="px-3.5 py-2 rounded-xl bg-navy-900 hover:bg-sky-600 text-white font-bold text-xs transition inline-flex items-center gap-1.5 shadow-2xs">
+                  <i class="fa-solid fa-pen-fancy text-sky-300"></i>
+                  <span>2. 產生申請動機大綱</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="mt-3">
+              <input id="helperFocusInput" type="text" maxlength="100"
+                placeholder="選填：你的專長或想切入的主題（例如：結合醫療影像與偏鄉衛教）"
+                class="w-full px-3 py-2 rounded-xl bg-white border border-sky-200 text-xs text-navy-900 placeholder-slate-400 focus:outline-none focus:border-sky-500" />
+            </div>
+
+            <div id="helperOutput" class="hidden mt-3.5 p-4 rounded-xl bg-white border border-sky-200 text-xs sm:text-sm space-y-3">
+              <div id="helperContent" class="text-slate-700 leading-relaxed whitespace-pre-line"></div>
+              <div class="flex flex-wrap items-center justify-end gap-2 pt-2 border-t border-slate-100">
+                <button onclick="copyHelperText()" class="px-3 py-1.5 rounded-lg border border-sky-200 hover:bg-sky-50 text-navy-800 font-bold text-xs">
+                  <i class="fa-regular fa-copy mr-1"></i>複製內容
+                </button>
+                <button onclick="insertHelperToTracker()" class="px-3 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-600 text-white font-bold text-xs">
+                  <i class="fa-solid fa-arrow-down mr-1"></i>存進申請追蹤筆記
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div>
+            <h3 class="text-sm font-bold text-navy-900 mb-2 flex items-center gap-1.5">
+              <i class="fa-solid fa-circle-nodes text-sky-500"></i> 詳細說明
+            </h3>
+            <ul id="modalDescList" class="space-y-2 text-xs sm:text-sm text-slate-600 leading-relaxed"></ul>
+          </div>
+
+          <!-- 申請追蹤（取代原本的線上報名：本站不代收申請） -->
+          <div class="bg-gradient-to-br from-navy-900 to-navy-800 text-white rounded-2xl p-5 sm:p-6 shadow-md">
+            <div class="flex items-center justify-between mb-1 gap-2">
+              <h3 class="text-base font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-list-check text-sky-400"></i> 我的申請追蹤
+              </h3>
+              <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 font-semibold">只有你看得到</span>
+            </div>
+            <p class="text-xs text-slate-300 mb-4">本站不代收申請。正式申請請到下方官方網站，這裡用來記錄你的準備進度。</p>
+            <div id="modalTrackerBox"></div>
+          </div>
+
+          <!-- 官方網站 -->
+          <div class="rounded-2xl border-2 border-sky-300 bg-gradient-to-r from-sky-50 via-white to-hope-50 p-5 shadow-xs">
+            <div id="modalOfficialSiteActiveBox" class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="space-y-1 min-w-0">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span id="modalVerifiedBadge" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-bold"></span>
+                </div>
+                <h4 class="text-sm sm:text-base font-black text-navy-900 pt-1">官方或參考網站</h4>
+                <p id="modalVerifiedNote" class="text-xs text-slate-500"></p>
+                <a id="modalOfficialUrlText" href="#" target="_blank" rel="noopener noreferrer" class="block text-xs font-mono text-sky-600 hover:text-sky-800 underline break-all pt-0.5"></a>
+              </div>
+              <div class="flex sm:flex-col gap-2 shrink-0">
+                <a id="modalOfficialUrlBtn" href="#" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-navy-900 text-white font-extrabold text-xs sm:text-sm transition inline-flex items-center justify-center gap-2 shadow-xs">
+                  <span>前往網站</span>
+                  <i class="fa-solid fa-up-right-from-square text-xs"></i>
+                </a>
+                <button type="button" onclick="copyOfficialUrl()" class="px-3.5 py-2 rounded-xl border border-sky-200 bg-white hover:bg-sky-50 text-navy-800 font-bold text-xs transition inline-flex items-center justify-center gap-1.5">
+                  <i class="fa-regular fa-copy text-sky-600"></i>
+                  <span>複製網址</span>
+                </button>
+              </div>
+            </div>
+
+            <div id="modalOfficialSiteEmptyBox" class="hidden flex items-start gap-3 text-xs text-slate-600">
+              <div class="w-9 h-9 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center shrink-0 mt-0.5">
+                <i class="fa-solid fa-file-signature text-sm"></i>
+              </div>
+              <div class="space-y-1">
+                <p class="font-bold text-navy-900 text-xs sm:text-sm">這筆資料沒有附網站連結</p>
+                <p class="text-slate-500 leading-relaxed">請依上方說明，向主辦單位或就讀學校的學務處、生輔組洽詢申請方式。</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== HOST / AUTH / ACCOUNT MODALS ==================== -->
+  <!-- 主辦諮詢 -->
+  <div id="hostModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+    <div onclick="closeHostModal()" class="fixed inset-0 bg-navy-950/50 backdrop-blur-xs"></div>
+    <div class="relative min-h-screen flex items-center justify-center p-4">
+      <div class="relative w-full max-w-md bg-white rounded-2xl p-6 shadow-2xl z-10 border border-sky-100">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-black text-navy-900">主辦方發起徵件 / 專案諮詢</h3>
+          <button onclick="closeHostModal()" aria-label="關閉" class="text-slate-400 hover:text-navy-900"><i class="fa-solid fa-xmark text-lg"></i></button>
+        </div>
+        <form onsubmit="handleHostSubmit(event)" class="space-y-3 text-sm">
+          <input id="hostOrg" type="text" required maxlength="100" placeholder="主辦單位 / 企業或機構名稱 *" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-sky-500" />
+          <input id="hostEmail" type="email" required maxlength="200" placeholder="聯絡人信箱 *" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-sky-500" />
+          <select id="hostServiceType" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-sky-500">
+            <option value="活動宣傳曝光">活動宣傳曝光</option>
+            <option value="競賽網站模組">競賽網站模組</option>
+            <option value="整合專案企劃">整合專案企劃</option>
+            <option value="免費張貼賽事">免費張貼新賽事</option>
+          </select>
+          <textarea id="hostMessage" rows="3" maxlength="2000" placeholder="想說明的需求（選填）" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-sky-500"></textarea>
+          <p id="hostError" class="hidden text-xs font-bold text-rose-600"></p>
+          <button type="submit" class="w-full py-2.5 rounded-xl bg-navy-900 hover:bg-sky-600 text-white font-bold transition disabled:opacity-50">
+            送出需求
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 登入 / 註冊 -->
+  <div id="authModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+    <div onclick="closeAuthModal()" class="fixed inset-0 bg-navy-950/60"></div>
+    <div class="relative min-h-screen flex items-center justify-center p-4">
+      <div class="relative w-full max-w-md bg-white rounded-2xl shadow-2xl z-10 overflow-hidden">
+
+        <!-- 品牌區 -->
+        <div class="relative bg-gradient-to-br from-navy-900 via-navy-800 to-sky-600 px-6 pt-6 pb-5 text-white overflow-hidden">
+          <i class="fa-solid fa-paper-plane absolute -right-4 -bottom-6 text-8xl text-white/10"></i>
+          <button onclick="closeAuthModal()" aria-label="關閉" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 hover:bg-white/25 flex items-center justify-center transition">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+          <div class="flex items-center gap-3 relative">
+            <div class="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center">
+              <i class="fa-solid fa-paper-plane text-sky-300"></i>
+            </div>
+            <div>
+              <p class="text-lg font-black leading-none">益起出發</p>
+              <p class="text-[11px] font-bold tracking-widest text-sky-200 mt-1">Together For better</p>
+            </div>
+          </div>
+          <p id="authHeadline" class="relative mt-4 text-sm text-sky-100 leading-relaxed"></p>
+        </div>
+
+        <!-- 頁籤 -->
+        <div class="grid grid-cols-2 border-b border-slate-200 text-sm font-bold">
+          <button id="authTabLogin" type="button" onclick="switchAuthTab('login')" class="py-3 border-b-2 transition">登入</button>
+          <button id="authTabRegister" type="button" onclick="switchAuthTab('register')" class="py-3 border-b-2 transition">註冊新帳號</button>
+        </div>
+
+        <div class="p-6">
+          <p id="authNotice" class="hidden mb-4 px-3.5 py-2.5 rounded-xl bg-sky-50 border border-sky-200 text-xs font-semibold text-sky-800"></p>
+
+          <form id="loginForm" onsubmit="handleLoginSubmit(event)" class="space-y-4 text-sm">
+            <label class="block">
+              <span class="text-xs font-bold text-slate-600">Email</span>
+              <div class="relative mt-1">
+                <i class="fa-regular fa-envelope absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input id="loginEmail" type="email" required autocomplete="email" placeholder="you@example.com" class="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100" />
+              </div>
+            </label>
+            <label class="block">
+              <span class="text-xs font-bold text-slate-600">密碼</span>
+              <div class="relative mt-1">
+                <i class="fa-solid fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input id="loginPassword" type="password" required autocomplete="current-password" placeholder="輸入密碼" class="w-full pl-10 pr-11 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100" />
+                <button type="button" onclick="togglePassword('loginPassword', this)" aria-label="顯示密碼" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg text-slate-400 hover:text-navy-900"><i class="fa-regular fa-eye"></i></button>
+              </div>
+            </label>
+            <button type="submit" class="w-full py-3 rounded-xl bg-navy-900 hover:bg-sky-600 text-white font-bold transition disabled:opacity-50">登入</button>
+            <p class="text-center text-xs text-slate-500">還沒有帳號？<button type="button" onclick="switchAuthTab('register')" class="font-bold text-sky-600 hover:text-navy-900">免費註冊</button></p>
+          </form>
+
+          <form id="registerForm" onsubmit="handleRegisterSubmit(event)" class="hidden space-y-4 text-sm">
+            <label class="block">
+              <span class="text-xs font-bold text-slate-600">暱稱</span>
+              <div class="relative mt-1">
+                <i class="fa-regular fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input id="registerName" type="text" required maxlength="30" autocomplete="nickname" placeholder="想被怎麼稱呼" class="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100" />
+              </div>
+            </label>
+            <label class="block">
+              <span class="text-xs font-bold text-slate-600">Email</span>
+              <div class="relative mt-1">
+                <i class="fa-regular fa-envelope absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input id="registerEmail" type="email" required autocomplete="email" placeholder="you@example.com" class="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100" />
+              </div>
+            </label>
+            <label class="block">
+              <span class="text-xs font-bold text-slate-600">密碼</span>
+              <div class="relative mt-1">
+                <i class="fa-solid fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input id="registerPassword" type="password" required minlength="8" autocomplete="new-password" placeholder="至少 8 個字元" class="w-full pl-10 pr-11 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-100" />
+                <button type="button" onclick="togglePassword('registerPassword', this)" aria-label="顯示密碼" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg text-slate-400 hover:text-navy-900"><i class="fa-regular fa-eye"></i></button>
+              </div>
+            </label>
+            <button type="submit" class="w-full py-3 rounded-xl bg-sky-500 hover:bg-sky-600 text-white font-bold transition disabled:opacity-50">建立帳號</button>
+            <p class="text-center text-xs text-slate-500">已經有帳號了？<button type="button" onclick="switchAuthTab('login')" class="font-bold text-sky-600 hover:text-navy-900">登入</button></p>
+          </form>
+
+          <p id="authError" class="hidden mt-4 px-3.5 py-2.5 rounded-xl bg-rose-50 border border-rose-200 text-xs font-bold text-rose-600"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 我的帳號 -->
+  <div id="accountModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+    <div onclick="closeAccountModal()" class="fixed inset-0 bg-navy-950/50 backdrop-blur-xs"></div>
+    <div class="relative min-h-screen flex items-center justify-center p-4">
+      <div class="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl z-10 border border-sky-100 overflow-hidden my-6">
+        <div class="px-6 py-4 bg-hope-50 border-b border-slate-100 flex items-center justify-between gap-3">
+          <div class="min-w-0">
+            <h3 id="accountName" class="text-lg font-black text-navy-900 truncate"></h3>
+            <p id="accountEmail" class="text-xs text-slate-500 truncate"></p>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <button onclick="logout()" class="px-3 py-1.5 rounded-lg border border-slate-200 hover:border-rose-400 hover:text-rose-600 text-xs font-bold text-slate-600 transition">登出</button>
+            <button onclick="closeAccountModal()" aria-label="關閉" class="w-8 h-8 rounded-lg hover:bg-sky-100 text-slate-400 hover:text-navy-900 flex items-center justify-center"><i class="fa-solid fa-xmark text-lg"></i></button>
+          </div>
+        </div>
+
+        <div class="px-6 pt-4 flex gap-1.5 text-xs sm:text-sm font-bold">
+          <button id="accountTabTracker" onclick="switchAccountTab('tracker')" class="px-3.5 py-2 rounded-xl transition">申請追蹤</button>
+          <button id="accountTabProfile" onclick="switchAccountTab('profile')" class="px-3.5 py-2 rounded-xl transition">個人資料</button>
+          <button onclick="closeAccountModal(); showFavorites();" class="px-3.5 py-2 rounded-xl text-slate-600 hover:bg-sky-50 transition">
+            我的收藏 (<span id="accountFavCount">0</span>)
+          </button>
+        </div>
+
+        <div class="p-6 max-h-[65vh] overflow-y-auto">
+          <div id="accountTrackerPanel" class="space-y-3 text-sm"></div>
+
+          <form id="accountProfilePanel" onsubmit="handleProfileSubmit(event)" class="hidden space-y-4 text-sm">
+            <p class="text-xs text-slate-500">填寫後，「申請小幫手」會用這些資料幫你比對每筆的資格。只會存在你的帳號裡。</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <label class="block">
+                <span class="text-xs font-bold text-slate-600">我是以什麼身分申請</span>
+                <select id="profileApplicant" class="mt-1 w-full px-3 py-2 rounded-xl border border-slate-200 bg-white focus:outline-none focus:border-sky-500"></select>
+              </label>
+              <label class="block">
+                <span class="text-xs font-bold text-slate-600">戶籍 / 登記地區</span>
+                <select id="profileRegion" class="mt-1 w-full px-3 py-2 rounded-xl border border-slate-200 bg-white focus:outline-none focus:border-sky-500"></select>
+              </label>
+            </div>
+            <div class="space-y-2">
+              <label class="flex items-center gap-2"><input id="profileTaiwanese" type="checkbox" class="accent-sky-600" /> 具中華民國國籍（或單位在台灣登記）</label>
+              <label class="flex items-center gap-2"><input id="profileLowIncome" type="checkbox" class="accent-sky-600" /> 符合清寒或經濟弱勢條件</label>
+              <label class="flex items-center gap-2"><input id="profileFemaleFounder" type="checkbox" class="accent-sky-600" /> 女性創辦人</label>
+            </div>
+            <button type="submit" class="px-5 py-2.5 rounded-xl bg-navy-900 hover:bg-sky-600 text-white font-bold transition">儲存個人資料</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-5 right-5 z-[60] hidden" role="status" aria-live="polite">
+    <div class="bg-navy-900 text-white px-4 py-2.5 rounded-xl shadow-lg border border-sky-400/30 text-xs sm:text-sm flex items-center gap-2">
+      <i class="fa-solid fa-circle-check text-sky-400"></i>
+      <span id="toastText"></span>
+    </div>
+  </div>
+
+  <!-- ==================== JAVASCRIPT：前端邏輯（資料一律向後端 API 取得） ==================== -->
+  <script>
+    // ============================================================================
+    // 0. 設定與小工具
+    // ============================================================================
+
+    // 後端網址。前端和後端由同一個 server.js 提供，所以留空字串即可。
+    // 之後若前後端分開部署，改成後端網址，例如 'https://api.example.com'
+    const API_BASE = '';
+
+    const PROFILE_REGIONS = ['臺北', '新北', '桃園', '新竹', '臺中', '臺南', '高雄', '其他縣市', '海外'];
+    const FILTER_LABELS = { cash: '資金性質', fundingType: '類型', group: '分類', applicant: '申請者', identity: '限定資格', region: '地區', stage: '進度', expense: '用途' };
+
+    // 把資料放進 HTML 前一定要跳脫，避免資料裡的符號被當成程式碼
+    const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    // 放進 onclick="fn(...)" 裡的參數
+    const arg = (v) => esc(JSON.stringify(v));
+    const formatNum = (n) => Number(n || 0).toLocaleString('en-US');
+    const $ = (id) => document.getElementById(id);
+
+    async function api(path, { method = 'GET', body } = {}) {
+      const options = { method, headers: {}, credentials: 'same-origin' };
+      if (method !== 'GET') options.headers['Content-Type'] = 'application/json';
+      if (body !== undefined) options.body = JSON.stringify(body);
+
+      let res;
+      try {
+        res = await fetch(API_BASE + path, options);
+      } catch {
+        throw new Error('無法連上伺服器，請確認啟動網站的黑色視窗還開著');
+      }
+      let data = {};
+      try { data = await res.json(); } catch {}
+      if (!res.ok) {
+        const err = new Error(data.error || `伺服器錯誤（${res.status}）`);
+        err.status = res.status;
+        throw err;
+      }
+      return data;
+    }
+
+    // ============================================================================
+    // 1. 狀態
+    // ============================================================================
+    const DEFAULT_FILTERS = {
+      keyword: '', cash: '', fundingType: '', group: '', applicant: '', identity: '', region: '', stage: '', expense: '',
+      minAmount: 0, openOnly: false, expiredOnly: false, verifiedOnly: false, favOnly: false, sort: 'recommended',
+    };
+    const state = { ...DEFAULT_FILTERS, page: 1, pageSize: 24, viewMode: 'grid' };
+
+    let meta = null;          // GET /api/grants/meta 的結果（篩選選項與筆數）
+    let currentUser = null;   // 登入中的使用者（未登入為 null）
+    let lastResult = null;    // 最近一次 GET /api/grants 的結果
+    let activeGrant = null;   // 詳情視窗正在看的那一筆
+    let helperText = '';
+    let requestSeq = 0;
+
+    function buildQuery() {
+      const p = new URLSearchParams();
+      for (const k of ['keyword', 'cash', 'fundingType', 'group', 'applicant', 'identity', 'region', 'stage', 'expense']) {
+        if (state[k]) p.set(k, state[k]);
+      }
+      if (state.sort !== 'recommended') p.set('sort', state.sort);
+      if (state.minAmount) p.set('minAmount', state.minAmount);
+      for (const k of ['openOnly', 'expiredOnly', 'verifiedOnly', 'favOnly']) if (state[k]) p.set(k, '1');
+      p.set('page', state.page);
+      p.set('pageSize', state.pageSize);
+      return p.toString();
+    }
+
+    // ============================================================================
+    // 2. 向後端載入資料
+    // ============================================================================
+    async function loadGrants() {
+      const seq = ++requestSeq;
+      const query = buildQuery();
+      updateInspector(query, null);
+      try {
+        const data = await api('/api/grants?' + query);
+        if (seq !== requestSeq) return; // 已經有更新的請求，丟掉舊結果
+        lastResult = data;
+        state.page = data.page;
+        renderResults();
+        updateInspector(query, data);
+      } catch (err) {
+        if (seq !== requestSeq) return;
+        showLoadError(err.message);
+      }
+    }
+
+    function refresh({ resetPage = true } = {}) {
+      if (resetPage) state.page = 1;
+      syncControls();
+      loadGrants();
+    }
+
+    function setFilter(key, value) {
+      state[key] = value;
+      if (key === 'openOnly' && value) state.expiredOnly = false;
+      refresh();
+      if (!$('advFilterModal').classList.contains('hidden')) renderAdvModal();
+    }
+
+    function showLoadError(message) {
+      $('cardsGrid').className = 'grid grid-cols-1';
+      $('cardsGrid').innerHTML = `
+        <div class="bg-white rounded-2xl border border-rose-200 p-10 text-center">
+          <p class="text-base font-bold text-rose-600">${esc(message)}</p>
+          <p class="text-xs text-slate-500 mt-2">請確認是用 start-windows.bat（或 node server.js）開啟網站，並從 http://localhost:3000 進入。</p>
+          <button onclick="location.reload()" class="mt-4 px-5 py-2.5 rounded-xl bg-navy-900 text-white text-xs font-bold hover:bg-sky-600 transition">重新載入</button>
+        </div>`;
+      $('paginationBar').classList.add('hidden');
+      $('emptyState').classList.add('hidden');
+    }
+
+    function updateInspector(query, data) {
+      $('liveQueryJson').textContent = `GET ${API_BASE || ''}/api/grants?${decodeURIComponent(query)}`;
+      $('inspectorMatchCount').textContent = data ? `回傳 ${data.items.length} 筆（共 ${data.total} 筆符合）` : '載入中…';
+    }
+
+    function toggleCodeInspector() {
+      $('codeInspectorPanel').classList.toggle('hidden');
+    }
+
+    // ============================================================================
+    // 3. 篩選選項（依後端資料產生）
+    // ============================================================================
+    const cashLabel = (value) => (meta && meta.cashTypes.find((c) => c.value === value) || {}).label || value;
+    const groupLabel = (value) => (meta && meta.groups.find((g) => g.value === value) || {}).label || value;
+
+    function renderFilterOptions() {
+      // 資金類型頁籤
+      $('fundingTypeTabs').innerHTML = [{ value: '', count: meta.totalInDb }, ...meta.fundingTypes].map((o) => `
+        <button data-funding="${esc(o.value)}" onclick="setFilter('fundingType', ${arg(o.value)})" class="funding-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm whitespace-nowrap transition">
+          ${o.value ? esc(o.value) : '全部'} <span class="opacity-60">(${o.count})</span>
+        </button>`).join('');
+
+      // 資料分類
+      $('groupTabs').innerHTML = `
+        <span class="text-[11px] font-bold text-slate-500 mr-1"><i class="fa-solid fa-landmark text-sky-600 mr-1"></i>資料分類：</span>
+        ${[{ value: '', label: '全部', count: meta.totalInDb, icon: '' }, ...meta.groups].map((g) => `
+          <button data-group="${esc(g.value)}" onclick="setFilter('group', ${arg(g.value)})" class="group-tab px-2.5 py-1 rounded-lg text-xs transition">
+            ${g.icon ? `<i class="fa-solid ${esc(g.icon)} mr-1"></i>` : ''}${esc(g.label)} (${g.count})
+          </button>`).join('')}`;
+
+      // 四個下拉選單
+      const fillSelect = (id, allLabel, options) => {
+        $(id).innerHTML = `<option value="">${allLabel}</option>` +
+          options.map((o) => `<option value="${esc(o.value)}">${esc(o.value)}（${o.count}）</option>`).join('');
+      };
+      $('filterCash').innerHTML = '<option value="">全部</option>' + meta.cashTypes.map((c) => `<option value="${esc(c.value)}">${esc(c.label)}（${c.count}）</option>`).join('');
+      fillSelect('filterApplicant', '全部申請者', meta.applicants);
+      fillSelect('filterIdentity', '不限', meta.identities);
+      fillSelect('filterRegion', '全部地區', meta.regions);
+      fillSelect('filterStage', '全部進度', meta.stages);
+
+      // 側邊選單
+      $('drawerCategoryGrid').innerHTML = [{ value: '', label: '全部項目' }, ...meta.fundingTypes.map((f) => ({ value: f.value, label: f.value }))]
+        .map((o) => `<button onclick="selectCategoryFromMenu(${arg(o.value)})" class="text-left px-3.5 py-2.5 border-b border-r border-sky-100 hover:bg-sky-500 hover:text-white font-medium transition">${esc(o.label)}</button>`)
+        .join('') + `<button onclick="closeDrawer(); openAdvFilterModal();" class="text-left px-3.5 py-2.5 border-b border-sky-100 hover:bg-sky-500 hover:text-white font-medium transition text-sky-700">進階篩選</button>`;
+
+      // 個人資料表單的選項
+      $('profileApplicant').innerHTML = `<option value="">未設定</option>` + meta.applicants.map((a) => `<option value="${esc(a.value)}">${esc(a.value)}</option>`).join('');
+      $('profileRegion').innerHTML = `<option value="">未設定</option>` + PROFILE_REGIONS.map((r) => `<option value="${esc(r)}">${esc(r)}</option>`).join('');
+    }
+
+    const PILLS = {
+      expiredRef: { label: '📚 只看已截止', on: () => state.expiredOnly, color: 'amber' },
+      highPrize: { label: '💰 10萬以上', on: () => state.minAmount >= 100000, color: 'sky' },
+      verified: { label: '✅ 已查證時程', on: () => state.verifiedOnly, color: 'sky' },
+      fav: { label: '', on: () => state.favOnly, color: 'rose' },
+    };
+
+    function syncControls() {
+      document.querySelectorAll('.funding-tab').forEach((b) => {
+        const on = b.dataset.funding === state.fundingType;
+        b.className = `funding-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm whitespace-nowrap transition ${on ? 'font-bold bg-navy-900 text-white' : 'font-semibold text-slate-600 hover:bg-sky-50 hover:text-navy-900'}`;
+      });
+      document.querySelectorAll('.group-tab').forEach((b) => {
+        const on = b.dataset.group === state.group;
+        b.className = `group-tab px-2.5 py-1 rounded-lg text-xs transition ${on ? 'font-bold bg-sky-600 text-white' : 'font-semibold bg-hope-50 text-slate-700 hover:bg-sky-100'}`;
+      });
+
+      $('filterCash').value = state.cash;
+      $('filterApplicant').value = state.applicant;
+      $('filterIdentity').value = state.identity;
+      $('filterRegion').value = state.region;
+      $('filterStage').value = state.stage;
+      $('sortSelect').value = state.sort;
+      $('openOnlyToggle').checked = state.openOnly;
+      $('minAmountSlider').value = Math.min(state.minAmount, 1000000);
+      previewMinAmount(state.minAmount);
+      $('searchInput').value = state.keyword;
+      $('clearSearchBtn').classList.toggle('hidden', !state.keyword);
+      $('taipeiTodayBadge').textContent = meta ? `今天 ${meta.today}・截止日未定的仍會顯示` : '截止日未定的項目仍會顯示';
+
+      const favCount = currentUser ? currentUser.favorites.length : 0;
+      PILLS.fav.label = `<i class="fa-solid fa-heart ${state.favOnly ? '' : 'text-rose-500'}"></i> 收藏 (${favCount})`;
+      for (const [key, pill] of Object.entries(PILLS)) {
+        const on = pill.on();
+        const activeCls = { amber: 'border-amber-500 bg-amber-500 text-navy-950', sky: 'border-sky-600 bg-sky-600 text-white', rose: 'border-rose-500 bg-rose-500 text-white' }[pill.color];
+        const btn = $('pill-' + key);
+        btn.className = `px-3 py-1.5 rounded-full text-xs border transition inline-flex items-center gap-1 ${on ? 'font-bold ' + activeCls : 'font-semibold border-sky-200 bg-white text-navy-800 hover:border-sky-500'}`;
+        btn.innerHTML = pill.label;
+      }
+
+      const advCount = ['cash', 'fundingType', 'group', 'applicant', 'identity', 'region', 'stage', 'expense'].filter((k) => state[k]).length + (state.minAmount ? 1 : 0);
+      $('advFilterBadge').textContent = advCount;
+      $('advFilterBadge').classList.toggle('hidden', advCount === 0);
+    }
+
+    function previewMinAmount(v) {
+      const n = Number(v) || 0;
+      $('minAmountLabel').textContent = n > 0 ? `NT$ ${formatNum(n)}` : '不限';
+    }
+
+    // ============================================================================
+    // 4. 畫面渲染
+    // ============================================================================
+    // 金額文字由後端依資金性質產生（非現金、榮譽、股權、類別彙整的說法都不同）
+    const amountText = (g) => g.amountShort;
+    const AMOUNT_STYLE = {
+      grant: 'bg-sky-50 border-sky-200/70 text-sky-700',
+      noncash: 'bg-slate-100 border-slate-300 text-slate-700',
+      equity: 'bg-indigo-50 border-indigo-200 text-indigo-700',
+    };
+    const amountStyle = (g) => AMOUNT_STYLE[g.cash] || AMOUNT_STYLE.grant;
+
+    function deadlineText(g, long = false) {
+      if (g.status === 'unknown') {
+        if (g.deadlineNote) return g.deadlineNote; // 例如「經費用罄截止」
+        return long ? '未公布，請以官方公告為準' : '截止日依官方公告';
+      }
+      if (long && g.deadlineNote && g.status !== 'closed') return `${g.deadlineNote}（還有 ${g.daysLeft} 天）`;
+      if (g.status === 'closed') return `已截止（${g.deadline}）`;
+      if (g.daysLeft === 0) return `今天截止（${g.deadline}）`;
+      return long ? `${g.deadline}（還有 ${g.daysLeft} 天）` : `還有 ${g.daysLeft} 天`;
+    }
+
+    function deadlineClass(g) {
+      if (g.status === 'closed') return 'text-amber-700';
+      if (g.status === 'open' && g.daysLeft <= 14) return 'text-rose-600';
+      return 'text-slate-500';
+    }
+
+    const shortList = (list, n = 2) => {
+      const clean = list.filter((x) => x !== '不限');
+      if (clean.length === 0) return '不限';
+      return clean.slice(0, n).join('、') + (clean.length > n ? '等' : '');
+    };
+
+    function renderResults() {
+      const data = lastResult;
+      const grid = $('cardsGrid');
+
+      $('statActiveCount').textContent = formatNum(data.total);
+      $('statVerifiedCount').textContent = formatNum(data.verifiedCount);
+      $('resultCountText').textContent = formatNum(data.total);
+      $('advResultCount').textContent = formatNum(data.total);
+      renderActiveChips();
+
+      if (data.total === 0) {
+        grid.innerHTML = '';
+        $('emptyState').classList.remove('hidden');
+        $('paginationBar').classList.add('hidden');
+        return;
+      }
+      $('emptyState').classList.add('hidden');
+      $('paginationBar').classList.remove('hidden');
+      renderPagination();
+
+      const favIcon = (g) => `<i class="${g.isFavorite ? 'fa-solid text-rose-500' : 'fa-regular'} fa-heart text-sm"></i>`;
+      const verifiedTag = (g) => g.verifiedAt ? `<span class="px-2 py-0.5 rounded-lg bg-emerald-500/90 text-white text-[10px] font-extrabold">已查證</span>` : '';
+      const trackerTag = (g) => g.tracker ? `<span class="px-2 py-0.5 rounded-md bg-navy-900 text-sky-200 text-[10px] font-bold">追蹤中：${esc(g.tracker.status)}</span>` : '';
+
+      if (state.viewMode === 'grid') {
+        grid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6';
+        grid.innerHTML = data.items.map((g) => `
+          <article onclick="openDetailModal(${arg(g.id)})" class="cursor-pointer group bg-white rounded-2xl border border-sky-100 hover:border-sky-400 shadow-2xs hover:shadow-lg hover:shadow-sky-900/5 transition-all duration-200 overflow-hidden flex flex-col justify-between">
+            <div class="h-36 bg-gradient-to-br ${esc(g.coverBg)} p-4 relative flex flex-col justify-between overflow-hidden">
+              <i class="fa-solid ${esc(g.icon)} text-white/10 text-7xl absolute -right-2 -bottom-2 group-hover:scale-105 transition duration-300"></i>
+              <div class="flex items-start justify-between relative z-10 gap-2">
+                <div class="flex flex-wrap items-center gap-1.5">
+                  <span class="px-2.5 py-1 rounded-lg bg-white/20 backdrop-blur-xs text-white text-xs font-bold">${esc(g.fundingType)}</span>
+                  <span class="px-2 py-0.5 rounded-lg bg-navy-950/50 text-sky-200 text-[10px] font-bold">${esc(g.groupLabel)}</span>
+                  ${verifiedTag(g)}
+                  ${g.isCategory ? '<span class="px-2 py-0.5 rounded-lg bg-white/90 text-navy-900 text-[10px] font-extrabold">類別導覽・非單一賽事</span>' : ''}
+                  ${g.status === 'closed' ? `<span class="px-2 py-0.5 rounded-lg bg-amber-500/90 text-navy-950 text-[10px] font-extrabold">已截止</span>` : ''}
+                </div>
+                <button onclick="event.stopPropagation(); toggleFav(${arg(g.id)})" aria-label="收藏" class="w-8 h-8 rounded-full bg-black/25 hover:bg-white text-white hover:text-rose-500 flex items-center justify-center transition shrink-0">
+                  ${favIcon(g)}
+                </button>
+              </div>
+              <span class="relative z-10 text-[11px] text-sky-100 font-medium truncate">${esc(g.organization)}</span>
+            </div>
+
+            <div class="p-5 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 class="text-base font-bold text-navy-900 group-hover:text-sky-600 transition line-clamp-2 leading-snug">${esc(g.name)}</h3>
+                <div class="mt-2.5 flex flex-wrap gap-1.5 text-[11px]">
+                  <span class="px-2 py-0.5 rounded-md bg-hope-50 text-slate-600 border border-sky-100">${esc(shortList(g.applicants))}</span>
+                  <span class="px-2 py-0.5 rounded-md bg-sky-50 text-sky-800 border border-sky-200 font-semibold">${esc(shortList(g.identities, 1))}</span>
+                  ${trackerTag(g)}
+                </div>
+              </div>
+
+              <div class="mt-4 pt-3.5 border-t border-sky-50 space-y-2.5">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="px-3 py-1 rounded-lg border ${amountStyle(g)} font-extrabold text-xs">${esc(amountText(g))}</span>
+                  <span class="text-xs font-semibold ${deadlineClass(g)} flex items-center gap-1 text-right">
+                    <i class="fa-regular fa-clock text-sky-500"></i>${esc(deadlineText(g))}
+                  </span>
+                </div>
+                <div class="grid ${g.url ? 'grid-cols-2' : 'grid-cols-1'} gap-1.5 pt-1">
+                  <button onclick="event.stopPropagation(); openDetailModal(${arg(g.id)}, true)" class="py-1.5 px-2.5 rounded-xl bg-hope-50 hover:bg-sky-500 text-sky-700 hover:text-white border border-sky-100 text-[11px] font-bold transition flex items-center justify-center gap-1">
+                    <i class="fa-solid fa-clipboard-check"></i><span>檢查我的資格</span>
+                  </button>
+                  ${g.url ? `
+                  <a href="${esc(g.url)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();" class="py-1.5 px-2.5 rounded-xl bg-navy-900 hover:bg-sky-600 text-white text-[11px] font-bold transition flex items-center justify-center gap-1">
+                    <i class="fa-solid fa-globe text-sky-300"></i><span>官方網站</span>
+                  </a>` : ''}
+                </div>
+              </div>
+            </div>
+          </article>`).join('');
+      } else {
+        grid.className = 'space-y-3.5';
+        grid.innerHTML = data.items.map((g) => `
+          <article onclick="openDetailModal(${arg(g.id)})" class="cursor-pointer group bg-white rounded-2xl border border-sky-100 hover:border-sky-400 p-3.5 sm:p-4 shadow-2xs hover:shadow-md transition flex items-center gap-4">
+            <div class="w-24 h-20 sm:w-36 sm:h-24 rounded-xl bg-gradient-to-br ${esc(g.coverBg)} shrink-0 relative flex items-center justify-center overflow-hidden">
+              <i class="fa-solid ${esc(g.icon)} text-white/25 text-4xl group-hover:scale-110 transition"></i>
+              <span class="absolute top-2 left-2 px-2 py-0.5 rounded bg-black/35 text-white text-[10px] font-bold">${esc(g.fundingType)}</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-start justify-between gap-2">
+                <h3 class="text-sm sm:text-base font-bold text-navy-900 group-hover:text-sky-600 transition line-clamp-1">${esc(g.name)}</h3>
+                <button onclick="event.stopPropagation(); toggleFav(${arg(g.id)})" aria-label="收藏" class="text-slate-400 hover:text-rose-500 shrink-0 p-1">${favIcon(g)}</button>
+              </div>
+              <p class="text-xs text-slate-500 mt-1 truncate">${g.isCategory ? '<strong class="text-navy-900">類別導覽・非單一賽事</strong>・' : ''}${esc(g.organization)}・申請者：${esc(g.applicants.join('、'))}</p>
+              <div class="mt-3 flex flex-wrap items-center justify-between gap-2">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="px-2.5 py-0.5 rounded-md border ${amountStyle(g)} font-extrabold text-xs">${esc(amountText(g))}</span>
+                  <span class="text-xs font-semibold ${deadlineClass(g)}">${esc(deadlineText(g))}</span>
+                  ${g.verifiedAt ? '<span class="text-[11px] font-bold text-emerald-600"><i class="fa-solid fa-circle-check mr-0.5"></i>已查證</span>' : ''}
+                  ${trackerTag(g)}
+                </div>
+                ${g.url ? `<a href="${esc(g.url)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();" class="px-2.5 py-1 rounded-lg bg-navy-900 hover:bg-sky-600 text-white text-[11px] font-bold transition"><i class="fa-solid fa-globe text-sky-300 mr-1"></i>官方網站</a>` : ''}
+              </div>
+            </div>
+          </article>`).join('');
+      }
+    }
+
+    function renderPagination() {
+      const { page, pageSize, total, totalPages, totalInDb } = lastResult;
+      const start = (page - 1) * pageSize + 1;
+      const end = Math.min(page * pageSize, total);
+      $('pageRangeStart').textContent = formatNum(start);
+      $('pageRangeEnd').textContent = formatNum(end);
+      $('pageTotalFiltered').textContent = formatNum(total);
+      $('pageTotalDb').textContent = formatNum(totalInDb);
+      $('prevPageBtn').disabled = page <= 1;
+      $('nextPageBtn').disabled = page >= totalPages;
+
+      const pages = [1];
+      if (page > 3) pages.push('...');
+      for (let p = Math.max(2, page - 1); p <= Math.min(totalPages - 1, page + 1); p++) pages.push(p);
+      if (page < totalPages - 2) pages.push('...');
+      if (totalPages > 1) pages.push(totalPages);
+
+      $('pageNumbersContainer').innerHTML = pages.map((p) => p === '...'
+        ? '<span class="px-1.5 text-xs text-slate-400">...</span>'
+        : `<button onclick="goToPage(${p})" class="w-8 h-8 rounded-xl text-xs font-bold transition ${p === page ? 'bg-navy-900 text-white shadow-2xs' : 'bg-hope-50 hover:bg-sky-100 text-navy-900'}">${p}</button>`
+      ).join('');
+    }
+
+    function goToPage(p) {
+      if (!lastResult || p < 1 || p > lastResult.totalPages) return;
+      state.page = p;
+      loadGrants();
+      $('competitions-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function changePageSize(size) {
+      state.pageSize = size;
+      refresh();
+    }
+
+    let chipClearFns = [];
+    function renderActiveChips() {
+      const chips = [];
+      for (const key of Object.keys(FILTER_LABELS)) {
+        if (state[key]) chips.push({ label: `${FILTER_LABELS[key]}：${key === 'group' ? groupLabel(state[key]) : key === 'cash' ? cashLabel(state[key]) : state[key]}`, clear: () => setFilter(key, '') });
+      }
+      if (state.keyword) chips.push({ label: `關鍵字：${state.keyword}`, clear: () => setFilter('keyword', '') });
+      if (state.minAmount) chips.push({ label: `金額 NT$ ${formatNum(state.minAmount)} 以上`, clear: () => setFilter('minAmount', 0) });
+      if (state.openOnly) chips.push({ label: '排除已截止', clear: () => setFilter('openOnly', false) });
+      if (state.expiredOnly) chips.push({ label: '只看已截止', clear: () => setFilter('expiredOnly', false) });
+      if (state.verifiedOnly) chips.push({ label: '已查證時程', clear: () => setFilter('verifiedOnly', false) });
+      if (state.favOnly) chips.push({ label: '我的收藏', clear: () => setFilter('favOnly', false) });
+
+      chipClearFns = chips.map((c) => c.clear);
+      $('activeFilterChips').innerHTML = chips.length === 0
+        ? `<span class="text-slate-400 text-[11px]">目前顯示全部資料</span>`
+        : chips.map((c, i) => `
+          <button onclick="chipClearFns[${i}]()" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-sky-100/80 hover:bg-sky-200 text-sky-800 text-[11px] font-bold transition">
+            <span>${esc(c.label)}</span><i class="fa-solid fa-xmark text-[10px]"></i>
+          </button>`).join('');
+    }
+
+    // ============================================================================
+    // 5. 篩選互動
+    // ============================================================================
+    function setViewMode(mode) {
+      state.viewMode = mode;
+      $('viewGridBtn').className = `px-2.5 py-1.5 rounded-lg text-xs font-bold transition ${mode === 'grid' ? 'bg-white text-navy-900 shadow-2xs' : 'text-slate-500 hover:text-navy-900'}`;
+      $('viewListBtn').className = `px-2.5 py-1.5 rounded-lg text-xs font-bold transition ${mode === 'list' ? 'bg-white text-navy-900 shadow-2xs' : 'text-slate-500 hover:text-navy-900'}`;
+      if (lastResult) renderResults();
+    }
+
+    function selectCategoryFromMenu(value) {
+      closeDrawer();
+      setFilter('fundingType', value);
+      $('competitions-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function toggleQuickFilter(type) {
+      if (type === 'expiredRef') {
+        state.expiredOnly = !state.expiredOnly;
+        if (state.expiredOnly) state.openOnly = false;
+      } else if (type === 'highPrize') {
+        state.minAmount = state.minAmount >= 100000 ? 0 : 100000;
+      } else if (type === 'verified') {
+        state.verifiedOnly = !state.verifiedOnly;
+      } else if (type === 'fav') {
+        if (!currentUser) return openAuthModal('login', '登入後就能收藏，並在這裡只看你的收藏。');
+        state.favOnly = !state.favOnly;
+      }
+      refresh();
+    }
+
+    function resetFilterState() {
+      Object.assign(state, DEFAULT_FILTERS);
+    }
+
+    function resetFilters() {
+      resetFilterState();
+      $('aiFilterInsight').classList.add('hidden');
+      refresh();
+      if (!$('advFilterModal').classList.contains('hidden')) renderAdvModal();
+    }
+
+    function quickFilterDisadvantaged() {
+      resetFilterState();
+      state.fundingType = '獎學金';
+      state.identity = '清寒/經濟弱勢';
+      refresh();
+      $('competitions-section').scrollIntoView({ behavior: 'smooth' });
+      showToast('已篩選出限定清寒與經濟弱勢學生的獎助學金');
+    }
+
+    function showVerifiedOnly() {
+      resetFilterState();
+      state.verifiedOnly = true;
+      refresh();
+      $('competitions-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function showFavorites() {
+      resetFilterState();
+      state.favOnly = true;
+      refresh();
+      $('competitions-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // 進階篩選視窗
+    function renderAdvModal() {
+      const btn = (on) => on
+        ? 'px-3 py-1.5 rounded-lg border border-sky-500 bg-sky-500 text-white font-bold transition'
+        : 'px-3 py-1.5 rounded-lg border border-slate-200 hover:border-sky-400 text-slate-700 transition';
+      const sections = [
+        ['cash', '資金性質', 'fa-coins', meta.cashTypes],
+        ['fundingType', '資金類型', 'fa-tags', meta.fundingTypes.map((o) => ({ ...o, label: o.value }))],
+        ['group', '資料分類', 'fa-landmark', meta.groups],
+        ['applicant', '誰要申請', 'fa-user', meta.applicants.map((o) => ({ ...o, label: o.value }))],
+        ['identity', '限定資格（只列出明確限定這個身分的）', 'fa-id-card-clip', meta.identities.map((o) => ({ ...o, label: o.value }))],
+        ['region', '地區（含不限地區）', 'fa-map-location-dot', meta.regions.map((o) => ({ ...o, label: o.value }))],
+        ['stage', '計畫進度', 'fa-seedling', meta.stages.map((o) => ({ ...o, label: o.value }))],
+        ['expense', '經費可用在', 'fa-wallet', meta.expenses.map((o) => ({ ...o, label: o.value }))],
+      ];
+      const amounts = [0, 50000, 100000, 500000, 1000000, 5000000];
+
+      $('advSections').innerHTML = sections.map(([key, label, icon, opts], i) => `
+        <div class="${i ? 'pt-4 border-t border-slate-100' : ''}">
+          <p class="font-bold text-navy-900 mb-2 flex items-center gap-1.5"><i class="fa-solid ${icon} text-sky-600"></i> ${esc(label)}</p>
+          <div class="flex flex-wrap gap-2">
+            <button onclick="setFilter(${arg(key)}, '')" class="${btn(!state[key])}">不限</button>
+            ${opts.map((o) => `<button onclick="setFilter(${arg(key)}, ${arg(o.value)})" class="${btn(state[key] === o.value)}">${esc(o.label)} <span class="opacity-60">${o.count}</span></button>`).join('')}
+          </div>
+        </div>`).join('') + `
+        <div class="pt-4 border-t border-slate-100">
+          <p class="font-bold text-navy-900 mb-2 flex items-center gap-1.5"><i class="fa-solid fa-coins text-sky-600"></i> 最高金額至少</p>
+          <div class="flex flex-wrap gap-2">
+            ${amounts.map((a) => `<button onclick="setFilter('minAmount', ${a})" class="${btn(state.minAmount === a)}">${a ? `NT$ ${formatNum(a)}` : '不限金額'}</button>`).join('')}
+          </div>
+        </div>`;
+    }
+
+    function openAdvFilterModal() {
+      if (!meta) return;
+      renderAdvModal();
+      openModal('advFilterModal');
+    }
+    function closeAdvFilterModal() { closeModal('advFilterModal'); }
+
+    // 關鍵字搜尋（停止打字 0.25 秒後才送出，避免每打一個字就呼叫一次 API）
+    let keywordTimer = null;
+    $('searchInput').addEventListener('input', (e) => {
+      state.keyword = e.target.value;
+      $('clearSearchBtn').classList.toggle('hidden', !state.keyword);
+      clearTimeout(keywordTimer);
+      keywordTimer = setTimeout(() => { state.page = 1; renderActiveChips(); loadGrants(); }, 250);
+    });
+    $('clearSearchBtn').addEventListener('click', () => setFilter('keyword', ''));
+
+    // ============================================================================
+    // 6. 智慧篩選：把一句話送到後端 POST /api/smart-search 解析
+    // ============================================================================
+    function fillAndRunSmartPrompt(text) {
+      $('aiPromptInput').value = text;
+      handleAISmartFilter();
+    }
+
+    async function handleAISmartFilter(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      const prompt = $('aiPromptInput').value.trim();
+      if (!prompt) return showToast('請先輸入一句話描述你的身分或需求');
+
+      const btnText = $('aiSmartBtnText');
+      const btnIcon = $('aiSmartIcon');
+      btnText.textContent = '解析中…';
+      btnIcon.className = 'fa-solid fa-spinner fa-spin';
+      try {
+        const { filters, reason } = await api('/api/smart-search', { method: 'POST', body: { prompt } });
+        resetFilterState();
+        for (const key of Object.keys(DEFAULT_FILTERS)) {
+          if (key in filters) state[key] = filters[key];
+        }
+        refresh();
+        $('aiFilterInsightText').textContent = reason;
+        $('aiFilterInsight').classList.remove('hidden');
+      } catch (err) {
+        showToast(err.message);
+      } finally {
+        btnText.textContent = '自動解析並篩選';
+        btnIcon.className = 'fa-solid fa-bolt';
+      }
+    }
+
+    // ============================================================================
+    // 7. 詳情視窗
+    // ============================================================================
+    async function openDetailModal(id, autoFitCheck = false) {
+      let g;
+      try {
+        g = await api('/api/grants/' + encodeURIComponent(id));
+      } catch (err) {
+        return showToast(err.message);
+      }
+      activeGrant = g;
+
+      $('modalCover').className = `h-44 sm:h-52 p-6 relative flex flex-col justify-between text-white bg-gradient-to-br ${g.coverBg}`;
+      $('modalCatBadge').textContent = g.fundingType;
+      $('modalGroupBadge').textContent = g.groupLabel;
+      const status = $('modalStatusBadge');
+      if (g.status === 'closed') {
+        status.textContent = '已截止';
+        status.className = 'px-3 py-1 rounded-full bg-rose-500/90 text-white text-xs font-bold';
+      } else if (g.status === 'open') {
+        status.textContent = g.daysLeft === 0 ? '今天截止' : `受理中（剩 ${g.daysLeft} 天）`;
+        status.className = 'px-3 py-1 rounded-full bg-emerald-500/80 text-white text-xs font-bold';
+      } else {
+        status.textContent = '截止日請看官網';
+        status.className = 'px-3 py-1 rounded-full bg-white/20 text-white text-xs font-bold';
+      }
+
+      $('modalTitle').textContent = g.name;
+      $('modalOrganizer').textContent = `主辦單位：${g.organization}`;
+      $('modalAmountTitle').textContent = g.amountTitle;
+      $('modalAmount').textContent = g.amountLong;
+      $('modalAmount').className = `text-base sm:text-lg font-extrabold ${g.cash === 'grant' ? 'text-sky-600' : g.cash === 'equity' ? 'text-indigo-700' : 'text-slate-700'}`;
+      $('modalCashBadge').textContent = g.isCategory ? `類別導覽・${g.cashLabel}` : g.cashLabel;
+      $('modalCashBadge').className = `inline-block px-2 py-0.5 rounded-md font-bold mr-1.5 border ${amountStyle(g)}`;
+      $('modalNature').textContent = g.nature || (g.isCategory ? '這筆是同類型比賽的整理，不是單一賽事，詳細請看各比賽公告。' : '');
+      $('modalPayout').textContent = g.payoutTiming;
+      $('modalDeadline').textContent = deadlineText(g, true);
+
+      // 有原文就顯示原文（新資料的寫法比較完整），沒有就顯示統一後的分類
+      const pick = (detail, list) => (detail && detail.length ? detail : list);
+      const tagRow = (label, list, wide = false) => `<div class="${wide ? 'sm:col-span-2' : ''}"><span class="text-slate-500">${label}：</span><strong class="text-navy-900">${esc(list.length ? list.join('、') : '未註明')}</strong></div>`;
+      const longIdentity = pick(g.identitiesDetail, g.identities).join('').length > 24;
+      $('modalStructuredTags').innerHTML = [
+        g.fundingTypeDetail ? tagRow('補助形式', [g.fundingTypeDetail]) : '',
+        tagRow('誰可以申請', pick(g.applicantsDetail, g.applicants)),
+        tagRow('資格條件', pick(g.identitiesDetail, g.identities), longIdentity),
+        g.schools.some((x) => x !== '不限') ? tagRow('學校', g.schools) : '',
+        g.years.some((y) => y !== '不限') ? tagRow('年級', g.years) : '',
+        tagRow('地區', pick(g.regionsDetail, g.regions)),
+        tagRow('計畫進度', g.stages),
+        tagRow('經費可用在', pick(g.expensesDetail, g.expenses), true),
+        tagRow('領域', g.fields),
+      ].join('');
+
+      // 說明文字以「｜」分段，「標題：內容」分開顯示
+      const isInternalNote = (part) => /AI 建議：網站應/.test(part); // 寫給網站製作者的備註，不顯示給使用者
+      // 說明可能用「｜」或換行分段；【標題】當小標，「- 」開頭當清單項目
+      $('modalDescList').innerHTML = g.description.split(/｜|\n/).map((part) => part.trim()).filter((part) => part && !isInternalNote(part)).map((part) => {
+        const heading = part.match(/^【(.+?)】\s*(.*)$/);
+        if (heading) {
+          return `<li class="pt-2"><strong class="text-navy-900 text-sm">${esc(heading[1])}</strong>${heading[2] ? `<p class="mt-1 p-3 rounded-xl border bg-hope-50 border-sky-100">${esc(heading[2])}</p>` : ''}</li>`;
+        }
+        if (part.startsWith('- ')) {
+          return `<li class="pl-4 relative before:content-['•'] before:absolute before:left-1 before:text-sky-500">${esc(part.slice(2))}</li>`;
+        }
+        const i = part.indexOf('：');
+        const isTip = part.startsWith('提醒') || part.startsWith('查證');
+        const cls = isTip ? 'bg-sky-50 border-sky-200' : 'bg-hope-50 border-sky-100';
+        if (i > 0 && i < 20) {
+          return `<li class="p-3 rounded-xl border ${cls}"><strong class="text-navy-900">${esc(part.slice(0, i))}</strong>：${esc(part.slice(i + 1))}</li>`;
+        }
+        return `<li class="p-3 rounded-xl border ${cls}">${esc(part)}</li>`;
+      }).join('');
+
+      // 官方網站
+      if (g.url) {
+        $('modalOfficialSiteActiveBox').classList.remove('hidden');
+        $('modalOfficialSiteEmptyBox').classList.add('hidden');
+        const badge = $('modalVerifiedBadge');
+        if (g.verifiedAt) {
+          badge.className = 'inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-navy-900 text-sky-300 text-[11px] font-bold';
+          badge.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i> ${esc(g.verifiedAt)} 已查證時程`;
+          $('modalVerifiedNote').textContent = '時程資訊已在上述日期查證過，但仍可能變動，申請前請再到官方網站確認。';
+        } else {
+          badge.className = 'inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-slate-200 text-slate-700 text-[11px] font-bold';
+          badge.innerHTML = '<i class="fa-solid fa-circle-info"></i> 尚未逐筆查證';
+          $('modalVerifiedNote').textContent = '這筆資料的金額與時程尚未逐筆查證，可能是往年資訊，請以官方網站最新公告為準。';
+        }
+        $('modalOfficialUrlText').href = g.url;
+        $('modalOfficialUrlText').textContent = g.url;
+        $('modalOfficialUrlBtn').href = g.url;
+      } else {
+        $('modalOfficialSiteActiveBox').classList.add('hidden');
+        $('modalOfficialSiteEmptyBox').classList.remove('hidden');
+      }
+
+      updateModalFav();
+      renderModalTracker();
+      $('helperOutput').classList.add('hidden');
+      $('helperFocusInput').value = '';
+      openModal('detailModal');
+      if (autoFitCheck) runFitCheck();
+    }
+
+    function closeDetailModal() {
+      closeModal('detailModal');
+      activeGrant = null;
+    }
+
+    function updateModalFav() {
+      if (!activeGrant) return;
+      const on = Boolean(currentUser && currentUser.favorites.includes(activeGrant.id));
+      $('modalFavIcon').className = on ? 'fa-solid fa-heart text-rose-500' : 'fa-regular fa-heart';
+    }
+
+    // ---------- 申請小幫手：資格檢查（用個人資料或目前的篩選條件比對） ----------
+    function runFitCheck() {
+      const g = activeGrant;
+      if (!g) return;
+      const usingProfile = Boolean(currentUser);
+      const prof = usingProfile
+        ? currentUser.profile
+        : { applicant: state.applicant, region: state.region, isTaiwanese: true, isLowIncome: state.identity === '清寒/經濟弱勢', isFemaleFounder: false };
+
+      const rows = [];
+      const add = (icon, label, text) => rows.push({ icon, label, text });
+
+      if (!prof.applicant) add('❓', '申請者', `你還沒設定身分；本項開放：${g.applicants.join('、')}`);
+      else if (g.applicants.includes(prof.applicant)) add('✅', '申請者', `你是「${prof.applicant}」，本項開放：${g.applicants.join('、')}`);
+      else add('⚠️', '申請者', `本項只開放：${g.applicants.join('、')}（你是「${prof.applicant}」）`);
+
+      const regionOpen = g.regions.includes('不限');
+      const regionMatch = Boolean(prof.region && g.regions.includes(prof.region));
+      if (regionOpen) add('✅', '地區', '不限地區');
+      else if (!prof.region) add('❓', '地區', `限：${g.regions.join('、')}；你還沒設定地區`);
+      else if (regionMatch) add('✅', '地區', `限：${g.regions.join('、')}，符合`);
+      else add('⚠️', '地區', `限：${g.regions.join('、')}（你是「${prof.region}」）`);
+
+      for (const id of g.identities) {
+        if (id === '不限') add('✅', '資格', '沒有特別身分限制');
+        else if (id === '本國籍/台灣登記') add(prof.isTaiwanese ? '✅' : '⚠️', '資格', prof.isTaiwanese ? '需具中華民國國籍或在台登記，符合' : '需具中華民國國籍或在台登記');
+        else if (id === '清寒/經濟弱勢') add(prof.isLowIncome ? '✅' : '⚠️', '資格', prof.isLowIncome ? '限清寒或經濟弱勢，符合（需準備證明文件）' : '限清寒或經濟弱勢，需附證明');
+        else if (id === '在地設籍') add(regionMatch ? '✅' : '❓', '資格', regionMatch ? '需設籍於指定地區，符合' : '需設籍於主辦縣市（通常要滿 6 個月），請看說明確認');
+        else if (id === '女性創辦人') add(prof.isFemaleFounder ? '✅' : '⚠️', '資格', '限女性創辦或領導的企業');
+        else if (id === '特定國家/區域') add('⚠️', '資格', '多數只限特定國家或地區的單位，台灣申請者通常需透過當地公司或夥伴');
+        else if (id === '需外國合作夥伴') add('⚠️', '資格', '需要和外國單位一起提案');
+        else if (id === '原住民') add('❓', '資格', '具原住民身分者可申請（也可能接受其他列出的弱勢身分，請看說明）');
+        else if (id === '限特定學校') add('❓', '資格', `只限特定學校的學生：${g.schools.filter((x) => x !== '不限').join('、') || '請看說明'}`);
+        else if (id === '其他條件（見說明）') add('❓', '資格', (g.identitiesDetail || []).join('；') || '有其他條件，請看說明');
+        else add('❓', '資格', id);
+      }
+
+      if (g.years.some((y) => y !== '不限')) add('❓', '年級', `限 ${g.years.join('、')}`);
+      if (g.cash === 'equity') add('⚠️', '資金性質', '這是股權投資，要出讓公司股份，不是無償補助');
+      else if (g.cash === 'noncash') add('❓', '資金性質', `不是現金：${g.nature || g.amountLong}`);
+      if (g.isCategory) add('❓', '類型', '這筆是同類比賽的整理，請到連結裡挑選實際要參加的比賽，再看該比賽的資格');
+
+      if (g.status === 'closed') add('⚠️', '時程', `已於 ${g.deadline} 截止，可參考準備下一梯次`);
+      else if (g.status === 'open') add('✅', '時程', `還有 ${g.daysLeft} 天（${g.deadline}）`);
+      else add('❓', '時程', '截止日未公布，請看官方網站');
+
+      const warn = rows.filter((r) => r.icon === '⚠️').length;
+      const unknown = rows.filter((r) => r.icon === '❓').length;
+      const verdict = warn ? '有條件可能不符合，請先確認標示 ⚠️ 的項目' : unknown ? '目前看起來可以申請，但有幾項需要你再確認' : '依網站資料初步符合，可以準備申請';
+
+      helperText = [
+        `【資格初步檢查】${g.name}`,
+        `結論：${verdict}`,
+        '',
+        ...rows.map((r) => `${r.icon} ${r.label}：${r.text}`),
+        '',
+        usingProfile
+          ? '※ 依你在「個人資料」填的內容比對。詳細資格以官方簡章為準。'
+          : '※ 你還沒登入，所以先用上方篩選條件比對。登入並填寫個人資料後會更準確。',
+      ].join('\n');
+      showHelperOutput();
+    }
+
+    // ---------- 申請小幫手：申請動機大綱（寫作範本） ----------
+    function runDraftGenerator() {
+      const g = activeGrant;
+      if (!g) return;
+      const focus = $('helperFocusInput').value.trim();
+      const tipPart = g.description.split('｜').find((p) => p.trim().startsWith('提醒'));
+      const tip = tipPart ? tipPart.replace(/^提醒：?/, '').trim() : '';
+      const expenses = g.expenses.filter((x) => x !== '不限');
+
+      helperText = [
+        `【${g.name}｜申請動機大綱】`,
+        '',
+        '一、為什麼想申請',
+        `　寫下你和「${g.organization}」這個計畫的連結，或你正在面對的實際需要。`,
+        '',
+        '二、我的計畫或需求',
+        `　${focus ? `以「${focus}」為核心，` : ''}說明你要做什麼、經費會怎麼使用${expenses.length ? `（本項經費可用在：${expenses.join('、')}）` : ''}。`,
+        '',
+        '三、為什麼我適合',
+        `　舉出具體經驗、成果或數據${tip ? `，並回應本項重點：${tip}` : ''}。`,
+        '',
+        '四、預期成果',
+        '　完成後，對你自己、學校、社區或社會會有什麼具體改變。',
+        '',
+        '※ 這是依網站資料整理的寫作範本，請依官方簡章規定的格式與字數修改。',
+      ].join('\n');
+      showHelperOutput();
+    }
+
+    function showHelperOutput() {
+      $('helperContent').textContent = helperText;
+      $('helperOutput').classList.remove('hidden');
+      $('helperOutput').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    async function copyText(text, okMessage) {
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+      }
+      showToast(okMessage);
+    }
+
+    function copyHelperText() {
+      if (helperText) copyText(helperText, '已複製到剪貼簿');
+    }
+
+    function copyOfficialUrl() {
+      if (activeGrant && activeGrant.url) copyText(activeGrant.url, '已複製網址');
+    }
+
+    function insertHelperToTracker() {
+      if (!currentUser) return openAuthModal('login', '登入後就能把內容存進你的申請追蹤筆記。');
+      const note = $('trackerNote');
+      if (!note) return;
+      note.value = (note.value ? note.value + '\n\n' : '') + helperText;
+      note.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      note.focus();
+      showToast('已放進筆記，記得按「儲存」');
+    }
+
+    // ---------- 申請追蹤 ----------
+    function renderModalTracker() {
+      const box = $('modalTrackerBox');
+      if (!activeGrant) return;
+      if (!currentUser) {
+        box.innerHTML = `
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <p class="text-xs text-slate-300">登入後可以把這筆加入追蹤，記錄準備進度和筆記。</p>
+            <button onclick="openAuthModal('login')" class="px-5 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-bold text-xs sm:text-sm transition shrink-0">登入 / 註冊</button>
+          </div>`;
+        return;
+      }
+      const t = currentUser.tracker[activeGrant.id];
+      box.innerHTML = `
+        <form onsubmit="handleTrackerSave(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs sm:text-sm">
+          <select id="trackerStatus" class="px-3.5 py-2.5 rounded-xl bg-white/10 border border-white/15 text-white focus:outline-none focus:border-sky-400">
+            ${meta.trackerStatuses.map((s) => `<option class="text-navy-900" value="${esc(s)}" ${t && t.status === s ? 'selected' : ''}>${esc(s)}</option>`).join('')}
+          </select>
+          <textarea id="trackerNote" rows="3" maxlength="1000" placeholder="筆記：要準備的文件、推薦人、送件日期…" class="sm:col-span-2 px-3.5 py-2.5 rounded-xl bg-white/10 border border-white/15 text-white placeholder-slate-300 focus:outline-none focus:border-sky-400">${esc(t ? t.note : '')}</textarea>
+          <div class="sm:col-span-3 flex items-center justify-between gap-2">
+            <span class="text-[11px] text-slate-300">${t ? `上次更新：${esc(new Date(t.updatedAt).toLocaleString('zh-TW'))}` : '尚未加入追蹤'}</span>
+            <div class="flex gap-2">
+              ${t ? '<button type="button" onclick="handleTrackerRemove()" class="px-4 py-2.5 rounded-xl border border-white/20 hover:border-rose-400 hover:text-rose-300 text-xs font-bold transition">移除</button>' : ''}
+              <button type="submit" class="px-6 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-bold transition">${t ? '儲存' : '加入追蹤'}</button>
+            </div>
+          </div>
+        </form>`;
+    }
+
+    async function handleTrackerSave(e) {
+      e.preventDefault();
+      if (!activeGrant || !currentUser) return;
+      try {
+        const r = await api('/api/me/tracker/' + encodeURIComponent(activeGrant.id), {
+          method: 'PUT',
+          body: { status: $('trackerStatus').value, note: $('trackerNote').value },
+        });
+        currentUser.tracker = r.tracker;
+        renderModalTracker();
+        loadGrants();
+        showToast('已儲存申請追蹤');
+      } catch (err) {
+        handleAuthError(err);
+      }
+    }
+
+    async function handleTrackerRemove() {
+      if (!activeGrant || !currentUser) return;
+      try {
+        const r = await api('/api/me/tracker/' + encodeURIComponent(activeGrant.id), { method: 'DELETE' });
+        currentUser.tracker = r.tracker;
+        renderModalTracker();
+        loadGrants();
+        showToast('已移除追蹤');
+      } catch (err) {
+        handleAuthError(err);
+      }
+    }
+
+    // ---------- 收藏 ----------
+    async function toggleFav(id) {
+      if (!id) return;
+      if (!currentUser) return openAuthModal('login', '登入後就能收藏喜歡的項目。');
+      const isFav = currentUser.favorites.includes(id);
+      try {
+        const r = await api('/api/me/favorites/' + encodeURIComponent(id), { method: isFav ? 'DELETE' : 'POST' });
+        currentUser.favorites = r.favorites;
+        showToast(isFav ? '已取消收藏' : '已加入收藏');
+        updateModalFav();
+        syncControls();
+        $('accountFavCount').textContent = currentUser.favorites.length;
+        loadGrants();
+      } catch (err) {
+        handleAuthError(err);
+      }
+    }
+
+    // ============================================================================
+    // 8. 登入 / 註冊 / 帳號
+    // ============================================================================
+    function handleAuthError(err) {
+      if (err.status === 401) {
+        currentUser = null;
+        onAuthChanged();
+        openAuthModal('login', '登入已過期，請重新登入。');
+      } else {
+        showToast(err.message);
+      }
+    }
+
+    function openAuthModal(tab = 'login', notice = '') {
+      if (currentUser) return openAccountModal();
+      switchAuthTab(tab);
+      $('authNotice').textContent = notice;
+      $('authNotice').classList.toggle('hidden', !notice);
+      openModal('authModal');
+      setTimeout(() => $(tab === 'login' ? 'loginEmail' : 'registerName').focus(), 50);
+    }
+
+    function closeAuthModal() { closeModal('authModal'); }
+
+    function switchAuthTab(tab) {
+      const isLogin = tab === 'login';
+      const on = 'py-3 border-b-2 transition border-sky-500 text-navy-900';
+      const off = 'py-3 border-b-2 transition border-transparent text-slate-400 hover:text-navy-900';
+      $('loginForm').classList.toggle('hidden', !isLogin);
+      $('registerForm').classList.toggle('hidden', isLogin);
+      $('authTabLogin').className = isLogin ? on : off;
+      $('authTabRegister').className = isLogin ? off : on;
+      $('authHeadline').textContent = isLogin
+        ? '歡迎回來！登入後可以看到你的收藏和申請進度。'
+        : '免費註冊，就能收藏項目、追蹤申請進度，並用個人資料自動檢查資格。';
+      $('authError').classList.add('hidden');
+    }
+
+    function togglePassword(inputId, button) {
+      const input = $(inputId);
+      const show = input.type === 'password';
+      input.type = show ? 'text' : 'password';
+      button.innerHTML = `<i class="fa-regular ${show ? 'fa-eye-slash' : 'fa-eye'}"></i>`;
+      button.setAttribute('aria-label', show ? '隱藏密碼' : '顯示密碼');
+    }
+
+    async function submitAuth(e, path, body) {
+      e.preventDefault();
+      const button = e.target.querySelector('button[type="submit"]');
+      button.disabled = true;
+      $('authError').classList.add('hidden');
+      try {
+        const r = await api(path, { method: 'POST', body });
+        currentUser = r.user;
+        e.target.reset();
+        closeAuthModal();
+        onAuthChanged();
+        showToast(`歡迎，${currentUser.name}！`);
+      } catch (err) {
+        $('authError').textContent = err.message;
+        $('authError').classList.remove('hidden');
+      } finally {
+        button.disabled = false;
+      }
+    }
+
+    function handleLoginSubmit(e) {
+      submitAuth(e, '/api/auth/login', { email: $('loginEmail').value, password: $('loginPassword').value });
+    }
+
+    function handleRegisterSubmit(e) {
+      submitAuth(e, '/api/auth/register', { name: $('registerName').value, email: $('registerEmail').value, password: $('registerPassword').value });
+    }
+
+    async function logout() {
+      try { await api('/api/auth/logout', { method: 'POST' }); } catch {}
+      currentUser = null;
+      state.favOnly = false;
+      closeAccountModal();
+      onAuthChanged();
+      showToast('已登出');
+    }
+
+    // 登入狀態改變時，更新所有相關畫面
+    function onAuthChanged() {
+      $('userStatusText').textContent = currentUser ? `Hi, ${currentUser.name}` : '登入 / 註冊';
+      if (!currentUser) state.favOnly = false;
+      syncControls();
+      if (meta) loadGrants();
+      if (activeGrant) {
+        updateModalFav();
+        renderModalTracker();
+      }
+    }
+
+    function openAccountModal(tab = 'tracker') {
+      if (!currentUser) return openAuthModal();
+      $('accountName').textContent = currentUser.name;
+      $('accountEmail').textContent = currentUser.email;
+      $('accountFavCount').textContent = currentUser.favorites.length;
+      switchAccountTab(tab);
+      openModal('accountModal');
+    }
+
+    function closeAccountModal() { closeModal('accountModal'); }
+
+    function switchAccountTab(tab) {
+      const isTracker = tab === 'tracker';
+      $('accountTrackerPanel').classList.toggle('hidden', !isTracker);
+      $('accountProfilePanel').classList.toggle('hidden', isTracker);
+      $('accountTabTracker').className = `px-3.5 py-2 rounded-xl transition ${isTracker ? 'bg-navy-900 text-white' : 'text-slate-600 hover:bg-sky-50'}`;
+      $('accountTabProfile').className = `px-3.5 py-2 rounded-xl transition ${!isTracker ? 'bg-navy-900 text-white' : 'text-slate-600 hover:bg-sky-50'}`;
+      if (isTracker) renderAccountTracker();
+      else fillProfileForm();
+    }
+
+    async function renderAccountTracker() {
+      const panel = $('accountTrackerPanel');
+      panel.innerHTML = '<p class="text-xs text-slate-400">載入中…</p>';
+      try {
+        const { items } = await api('/api/me/tracker');
+        if (items.length === 0) {
+          panel.innerHTML = '<p class="text-xs text-slate-500">還沒有追蹤任何項目。打開任一筆資料，在「我的申請追蹤」加入即可。</p>';
+          return;
+        }
+        const statusColor = { 想申請: 'bg-slate-100 text-slate-700', 準備中: 'bg-sky-100 text-sky-800', 已送件: 'bg-indigo-100 text-indigo-800', 已錄取: 'bg-emerald-100 text-emerald-800', 未錄取: 'bg-rose-100 text-rose-700' };
+        panel.innerHTML = items.map((t) => `
+          <div class="p-4 rounded-xl border border-sky-100 bg-hope-50/60">
+            <div class="flex items-start justify-between gap-3">
+              <div class="min-w-0">
+                <p class="font-bold text-navy-900">${esc(t.grant.name)}</p>
+                <p class="text-xs text-slate-500 mt-0.5">${t.grant.status ? esc(deadlineText(t.grant, true)) : ''}</p>
+              </div>
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold shrink-0 ${statusColor[t.status] || ''}">${esc(t.status)}</span>
+            </div>
+            ${t.note ? `<p class="mt-2 text-xs text-slate-600 whitespace-pre-line">${esc(t.note)}</p>` : ''}
+            ${t.grant.status ? `<button onclick="closeAccountModal(); openDetailModal(${arg(t.grant.id)})" class="mt-2 text-xs font-bold text-sky-600 hover:text-navy-900">查看與編輯 →</button>` : ''}
+          </div>`).join('');
+      } catch (err) {
+        panel.innerHTML = `<p class="text-xs text-rose-600">${esc(err.message)}</p>`;
+        if (err.status === 401) handleAuthError(err);
+      }
+    }
+
+    function fillProfileForm() {
+      const p = currentUser.profile;
+      $('profileApplicant').value = p.applicant || '';
+      $('profileRegion').value = p.region || '';
+      $('profileTaiwanese').checked = Boolean(p.isTaiwanese);
+      $('profileLowIncome').checked = Boolean(p.isLowIncome);
+      $('profileFemaleFounder').checked = Boolean(p.isFemaleFounder);
+    }
+
+    async function handleProfileSubmit(e) {
+      e.preventDefault();
+      try {
+        const r = await api('/api/me/profile', {
+          method: 'PUT',
+          body: {
+            applicant: $('profileApplicant').value,
+            region: $('profileRegion').value,
+            isTaiwanese: $('profileTaiwanese').checked,
+            isLowIncome: $('profileLowIncome').checked,
+            isFemaleFounder: $('profileFemaleFounder').checked,
+          },
+        });
+        currentUser = r.user;
+        showToast('已儲存個人資料');
+      } catch (err) {
+        handleAuthError(err);
+      }
+    }
+
+    // ============================================================================
+    // 9. 主辦諮詢、電子報
+    // ============================================================================
+    function openHostModal(service) {
+      if (service) $('hostServiceType').value = service;
+      $('hostError').classList.add('hidden');
+      openModal('hostModal');
+    }
+    function closeHostModal() { closeModal('hostModal'); }
+
+    async function handleHostSubmit(e) {
+      e.preventDefault();
+      const button = e.target.querySelector('button[type="submit"]');
+      button.disabled = true;
+      try {
+        const org = $('hostOrg').value.trim();
+        await api('/api/host-inquiries', {
+          method: 'POST',
+          body: { org, email: $('hostEmail').value, service: $('hostServiceType').value, message: $('hostMessage').value },
+        });
+        e.target.reset();
+        closeHostModal();
+        showToast(`已收到「${org}」的諮詢，我們會再與你聯繫`);
+      } catch (err) {
+        $('hostError').textContent = err.message;
+        $('hostError').classList.remove('hidden');
+      } finally {
+        button.disabled = false;
+      }
+    }
+
+    async function handleNewsletter(e) {
+      e.preventDefault();
+      try {
+        await api('/api/subscriptions', { method: 'POST', body: { email: $('newsletterInput').value } });
+        $('newsletterInput').value = '';
+        showToast('訂閱成功！');
+      } catch (err) {
+        showToast(err.message);
+      }
+    }
+
+    // ============================================================================
+    // 10. 視窗、選單、提示訊息
+    // ============================================================================
+    const MODAL_IDS = ['detailModal', 'advFilterModal', 'hostModal', 'authModal', 'accountModal'];
+
+    function openModal(id) {
+      $(id).classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(id) {
+      $(id).classList.add('hidden');
+      const anyOpen = MODAL_IDS.some((m) => !$(m).classList.contains('hidden')) || !$('drawerOverlay').classList.contains('hidden');
+      if (!anyOpen) document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      const top = [...MODAL_IDS].reverse().find((m) => !$(m).classList.contains('hidden'));
+      if (top === 'detailModal') closeDetailModal();
+      else if (top) closeModal(top);
+      else closeDrawer();
+    });
+
+    const drawerOverlay = $('drawerOverlay');
+    $('openMenuBtn').addEventListener('click', () => {
+      drawerOverlay.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    });
+    $('closeMenuBtn').addEventListener('click', closeDrawer);
+    $('drawerBackdrop').addEventListener('click', closeDrawer);
+
+    function closeDrawer() {
+      drawerOverlay.classList.add('hidden');
+      if (!MODAL_IDS.some((m) => !$(m).classList.contains('hidden'))) document.body.style.overflow = '';
+    }
+
+    let toastTimer = null;
+    function showToast(text) {
+      $('toastText').textContent = text;
+      $('toast').classList.remove('hidden');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => $('toast').classList.add('hidden'), 3000);
+    }
+
+    // ============================================================================
+    // 11. 啟動
+    // ============================================================================
+    window.addEventListener('DOMContentLoaded', async () => {
+      if (location.protocol === 'file:') {
+        showLoadError('請不要直接點兩下 index.html 開啟');
+        return;
+      }
+      try {
+        meta = await api('/api/grants/meta');
+      } catch (err) {
+        showLoadError(err.message);
+        return;
+      }
+      $('heroTotalCount').textContent = formatNum(meta.totalInDb);
+      $('heroVerifiedCount').textContent = formatNum(meta.verifiedInDb);
+      $('statTotalDbCount').textContent = formatNum(meta.totalInDb);
+      renderFilterOptions();
+
+      try {
+        currentUser = (await api('/api/auth/me')).user;
+      } catch {}
+      $('userStatusText').textContent = currentUser ? `Hi, ${currentUser.name}` : '登入 / 註冊';
+
+      // 從介紹頁帶過來的條件，例如 /app?fundingType=獎學金&identity=清寒/經濟弱勢
+      const params = new URLSearchParams(location.search);
+      for (const key of ['keyword', 'cash', 'fundingType', 'group', 'applicant', 'identity', 'region', 'stage', 'expense', 'sort']) {
+        if (params.get(key)) state[key] = params.get(key);
+      }
+      if (params.get('openOnly')) state.openOnly = true;
+      const fromIntro = [...params.keys()].length > 0;
+      if (params.get('q')) {
+        // 介紹頁搜尋框輸入的一句話 → 用智慧篩選解析
+        $('aiPromptInput').value = params.get('q');
+        handleAISmartFilter();
+      } else {
+        refresh();
+      }
+      if (fromIntro && !location.hash) $('competitions-section').scrollIntoView();
+      if (params.get('open')) openDetailModal(params.get('open'));
+      if (params.get('login') && !currentUser) openAuthModal('login');
+      if (params.get('account') && currentUser) openAccountModal();
+      if (fromIntro) history.replaceState(null, '', location.pathname + location.hash);
+    });
+  </script>
+</body>
+</html>
