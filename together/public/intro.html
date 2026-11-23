@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>益起出發 Together For better｜獎學金、補助與比賽查詢</title>
+  <meta name="description" content="整理國內外獎助學金、政府補助與競賽，每筆附官方網站。說出你的情況，找到可以申請的項目。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0F2942;
+      --navy-2: #173A5E;
+      --sky: #0EA5E9;
+      --sky-dark: #0284C7;
+      --ice: #F3F7FA;
+      --line: #DCE5EC;
+      --text: #1F3347;
+      --muted: #5B6E80;
+      --sun: #FBBF24;
+      --font: "Noto Sans TC", "Noto Sans CJK TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      --wrap: 1180px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body { margin: 0; font-family: var(--font); color: var(--text); background: #fff; font-size: 16px; line-height: 1.7; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
+    :focus-visible { outline: 3px solid var(--sky); outline-offset: 3px; border-radius: 6px; }
+    .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 24px; }
+    h2 { font-size: clamp(26px, 3.2vw, 38px); font-weight: 900; color: var(--navy); line-height: 1.3; margin: 0; letter-spacing: .01em; }
+    .lead { color: var(--muted); margin: 10px 0 0; max-width: 34em; }
+
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; font-weight: 700; border-radius: 999px; padding: 12px 24px; border: 0; cursor: pointer; font-family: inherit; font-size: 16px; transition: background-color .15s, color .15s; }
+    .btn-sky { background: var(--sky); color: #fff; }
+    .btn-sky:hover { background: var(--sky-dark); }
+    .btn-white { background: #fff; color: var(--navy); }
+    .btn-white:hover { background: var(--ice); }
+
+    /* ================= 主視覺 ================= */
+    .hero { position: relative; min-height: 640px; color: #fff; background: var(--navy) center/cover no-repeat; display: flex; flex-direction: column; }
+    .hero::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10,30,50,.92) 0%, rgba(10,30,50,.78) 42%, rgba(10,30,50,.35) 100%); }
+    .hero > * { position: relative; }
+    .hero > .wrap { width: 100%; }
+
+    .nav { display: flex; align-items: center; justify-content: space-between; padding-top: 22px; padding-bottom: 22px; }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .brand-mark { width: 38px; height: 38px; border-radius: 10px; background: var(--sky); display: grid; place-items: center; }
+    .brand-mark svg { width: 20px; height: 20px; }
+    .brand-name { font-weight: 900; font-size: 20px; line-height: 1.1; display: block; }
+    .brand-en { font-size: 11px; opacity: .75; font-weight: 500; }
+    .nav-links { display: flex; align-items: center; gap: 26px; font-size: 15px; font-weight: 500; }
+    .nav-links a { text-decoration: none; opacity: .9; }
+    .nav-links a:hover { opacity: 1; color: #BAE6FD; }
+    .nav-links .btn { opacity: 1; padding: 9px 20px; font-size: 15px; }
+    .nav-links .btn:hover { color: #fff; }
+
+    .hero-body { flex: 1; display: flex; align-items: center; padding-top: 30px; padding-bottom: 120px; }
+    .hero-inner { max-width: 780px; animation: rise .7s ease-out both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+    .hero h1 { margin: 0; font-size: clamp(34px, 5.4vw, 62px); line-height: 1.18; font-weight: 900; letter-spacing: .01em; }
+    .hero p { margin: 18px 0 0; font-size: 18px; color: #DCE8F2; max-width: 30em; }
+
+    .search { margin-top: 30px; display: flex; background: #fff; border-radius: 999px; padding: 6px; box-shadow: 0 12px 30px rgba(0,0,0,.25); max-width: 620px; }
+    .search input { flex: 1; min-width: 0; border: 0; background: transparent; font: inherit; font-size: 16px; color: var(--text); padding: 10px 18px; }
+    .search input:focus { outline: none; }
+    .search input::placeholder { color: #8A9AAA; }
+    .search:focus-within { box-shadow: 0 0 0 3px var(--sky), 0 12px 30px rgba(0,0,0,.25); }
+    .quick { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px; font-size: 14px; }
+    .quick span { color: #B9CCDC; padding: 6px 0; }
+    .quick a { text-decoration: none; padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.35); color: #fff; }
+    .quick a:hover { background: rgba(255,255,255,.14); }
+
+    /* 數字列：壓在主視覺下緣 */
+    .stats { position: relative; margin-top: -64px; z-index: 2; }
+    .stats-card { background: #fff; border-radius: 18px; box-shadow: 0 16px 40px rgba(15,41,66,.12); display: grid; grid-template-columns: repeat(3, 1fr); }
+    .stat { padding: 26px 30px; display: flex; align-items: center; gap: 16px; }
+    .stat + .stat { border-left: 1px solid var(--line); }
+    .stat-icon { width: 46px; height: 46px; border-radius: 12px; background: #E0F2FE; color: var(--sky-dark); display: grid; place-items: center; flex: none; }
+    .stat-icon svg { width: 22px; height: 22px; }
+    .stat b { display: block; font-size: 30px; font-weight: 900; color: var(--navy); line-height: 1.1; font-variant-numeric: tabular-nums; }
+    .stat small { color: var(--muted); font-size: 14px; }
+    .stat.urgent .stat-icon { background: #FEF3C7; color: #B45309; }
+
+    /* ================= 分類卡片 ================= */
+    .section { padding-top: 96px; }
+    .section-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; margin-bottom: 32px; }
+    .text-link { color: var(--sky-dark); font-weight: 700; text-decoration: none; }
+    .text-link:hover { text-decoration: underline; }
+
+    .cats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+    .cat { text-decoration: none; border-radius: 16px; overflow: hidden; background: #fff; border: 1px solid var(--line); display: flex; flex-direction: column; transition: box-shadow .2s, transform .2s; }
+    .cat:hover { box-shadow: 0 14px 30px rgba(15,41,66,.12); transform: translateY(-3px); }
+    .cat-img { aspect-ratio: 4 / 3; background: var(--navy-2) center/cover no-repeat; position: relative; }
+    .cat-count { position: absolute; left: 14px; bottom: 14px; background: rgba(15,41,66,.82); color: #fff; font-size: 13px; font-weight: 700; padding: 4px 12px; border-radius: 999px; }
+    .cat-body { padding: 18px 20px 22px; }
+    .cat h3 { margin: 0; font-size: 20px; color: var(--navy); font-weight: 900; }
+    .cat p { margin: 6px 0 0; color: var(--muted); font-size: 15px; }
+
+    /* ================= 即將截止 ================= */
+    .soon-band { background: var(--ice); margin-top: 96px; padding: 80px 0; }
+    .soon { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; padding: 0; margin: 0; list-style: none; }
+    .soon a { display: flex; gap: 16px; align-items: flex-start; text-decoration: none; background: #fff; border-radius: 14px; padding: 18px; border: 1px solid var(--line); height: 100%; transition: border-color .15s; }
+    .soon a:hover { border-color: var(--sky); }
+    .date { flex: none; width: 64px; text-align: center; border-radius: 12px; background: var(--navy); color: #fff; padding: 8px 0 10px; }
+    .date small { display: block; font-size: 12px; opacity: .8; }
+    .date b { display: block; font-size: 24px; font-weight: 900; line-height: 1.1; font-variant-numeric: tabular-nums; }
+    .soon h3 { margin: 0; font-size: 16px; color: var(--navy); line-height: 1.45; font-weight: 700; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .soon .org { margin: 4px 0 0; color: var(--muted); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .soon .meta { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; font-size: 12px; font-weight: 700; }
+    .tag { padding: 2px 9px; border-radius: 6px; background: #E0F2FE; color: #075985; }
+    .tag.warn { background: #FEF3C7; color: #92400E; }
+    .soon-empty { color: var(--muted); }
+
+    /* ================= 怎麼用 ================= */
+    .how { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+    .how-img { border-radius: 20px; aspect-ratio: 5 / 4; background: var(--navy-2) center/cover no-repeat; }
+    .steps { list-style: none; padding: 0; margin: 28px 0 0; counter-reset: s; }
+    .steps li { counter-increment: s; display: grid; grid-template-columns: 48px 1fr; gap: 16px; padding: 18px 0; border-top: 1px solid var(--line); }
+    .steps li:last-child { border-bottom: 1px solid var(--line); }
+    .steps li::before { content: counter(s); width: 44px; height: 44px; border-radius: 50%; background: var(--sky); color: #fff; font-weight: 900; font-size: 18px; display: grid; place-items: center; }
+    .steps h3 { margin: 0; font-size: 18px; color: var(--navy); }
+    .steps p { margin: 4px 0 0; color: var(--muted); font-size: 15px; }
+
+    /* ================= 主辦方 ================= */
+    .partner { margin-top: 96px; background: var(--navy); color: #fff; border-radius: 22px; padding: 48px 52px; display: flex; justify-content: space-between; align-items: center; gap: 28px; flex-wrap: wrap; }
+    .partner h2 { color: #fff; font-size: clamp(22px, 2.6vw, 30px); }
+    .partner p { margin: 8px 0 0; color: #C5D5E3; max-width: 36em; }
+
+    /* ================= 頁尾 ================= */
+    footer { margin-top: 96px; border-top: 1px solid var(--line); padding: 48px 0 36px; color: var(--muted); font-size: 14px; }
+    .foot { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 40px; }
+    .foot .brand { color: var(--navy); }
+    .foot .brand-en { opacity: 1; color: var(--muted); }
+    .foot h4 { margin: 0 0 10px; font-size: 15px; color: var(--navy); }
+    .foot ul { list-style: none; margin: 0; padding: 0; }
+    .foot li { margin: 6px 0; }
+    .foot li a { text-decoration: none; }
+    .foot li a:hover { color: var(--sky-dark); }
+    .copy { margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 13px; }
+
+    /* ================= 響應式 ================= */
+    @media (max-width: 960px) {
+      .cats { grid-template-columns: repeat(2, 1fr); }
+      .soon { grid-template-columns: 1fr 1fr; }
+      .how { grid-template-columns: 1fr; gap: 28px; }
+      .foot { grid-template-columns: 1fr 1fr; }
+      .foot > div:first-child { grid-column: 1 / -1; }
+    }
+    @media (max-width: 640px) {
+      .nav-links .hide-sm { display: none; }
+      .nav-links { gap: 14px; }
+      .hero { min-height: 0; }
+      .hero::before { background: linear-gradient(180deg, rgba(10,30,50,.85), rgba(10,30,50,.92)); }
+      .hero-body { padding-top: 16px; padding-bottom: 96px; }
+      .hero h1 { font-size: clamp(24px, 7.6vw, 34px); }
+      .hero p { font-size: 16px; }
+      .search { flex-direction: column; border-radius: 18px; gap: 6px; }
+      .search .btn { width: 100%; }
+      .stats-card { grid-template-columns: 1fr; }
+      .stat + .stat { border-left: 0; border-top: 1px solid var(--line); }
+      .stat { padding: 18px 22px; }
+      .section { padding-top: 72px; }
+      .soon-band { margin-top: 72px; padding: 56px 0; }
+      .soon { grid-template-columns: 1fr; }
+      .cats { gap: 14px; }
+      .cat-body { padding: 14px 14px 16px; }
+      .cat h3 { font-size: 17px; }
+      .cat p { display: none; }
+      .partner { padding: 32px 24px; margin-top: 72px; }
+      .foot { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 照片來自 Unsplash（Unsplash License，可免費使用）；載入失敗時會顯示深藍底色 -->
+  <header class="hero" style="background-image:url('https://images.unsplash.com/photo-1762512346988-045f4d5ad2b3?auto=format&fit=crop&w=2000&q=70')">
+    <div class="wrap nav">
+      <a class="brand" href="/" aria-label="益起出發 首頁">
+        <span class="brand-mark">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 11.3 21 3.5l-4.7 17.3-5.2-5.4-3 3.7v-5.6l9.8-9.4-10.6 6.9z" fill="#fff"/></svg>
+        </span>
+        <span><span class="brand-name">益起出發</span><span class="brand-en">Together For better</span></span>
+      </a>
+      <nav class="nav-links" aria-label="主要連結">
+        <a class="hide-sm" href="#categories">找資源</a>
+        <a class="hide-sm" href="#how">怎麼用</a>
+        <a class="hide-sm" href="/app#b2b-section">主辦方合作</a>
+        <a id="accountLink" href="/app?login=1">登入</a>
+        <a class="btn btn-sky" href="/app">開始查詢</a>
+      </nav>
+    </div>
+
+    <div class="wrap hero-body">
+      <div class="hero-inner">
+        <h1>找獎學金、補助和比賽，<br>從這裡出發。</h1>
+        <p>政府、基金會、學校和企業的獎助資訊，整理在同一個地方。每筆都附官方網站，申請前看得清清楚楚。</p>
+
+        <form class="search" action="/app" method="get" role="search">
+          <label for="q" style="position:absolute;left:-9999px">描述你的情況</label>
+          <input id="q" name="q" type="text" maxlength="300" placeholder="例如：我是清寒大學生，想找助學金" autocomplete="off">
+          <button class="btn btn-sky" type="submit">開始搜尋</button>
+        </form>
+
+        <div class="quick">
+          <span>熱門：</span>
+          <a href="/app?fundingType=獎學金&identity=清寒/經濟弱勢">清寒助學金</a>
+          <a href="/app?applicant=學生團隊&fundingType=競賽獎金">學生團隊比賽</a>
+          <a href="/app?keyword=海外">海外交流</a>
+          <a href="/app?keyword=創業">創業補助</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="wrap stats" aria-label="資料概況">
+      <div class="stats-card">
+        <div class="stat">
+          <span class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5V5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2"/><path d="M8 7h6"/></svg></span>
+          <div><b id="statTotal">—</b><small>筆獎助、補助與比賽</small></div>
+        </div>
+        <div class="stat">
+          <span class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+          <div><b id="statVerified">—</b><small>筆已查證最新時程</small></div>
+        </div>
+        <div class="stat urgent">
+          <span class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+          <div><b id="statSoon">—</b><small>筆 14 天內截止</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap section" id="categories" aria-labelledby="catTitle">
+      <div class="section-head">
+        <div>
+          <h2 id="catTitle">你在找哪一種支持？</h2>
+          <p class="lead">從類型開始逛，或直接在上方用一句話描述你的情況。</p>
+        </div>
+        <a class="text-link" href="/app">看全部資料</a>
+      </div>
+      <div class="cats">
+        <a class="cat" href="/app?fundingType=獎學金">
+          <div class="cat-img" style="background-image:url('https://images.unsplash.com/photo-1577036056967-aec1101ab9de?auto=format&fit=crop&w=800&q=70')"><span class="cat-count" data-type="獎學金"></span></div>
+          <div class="cat-body"><h3>獎助學金</h3><p>基金會、企業與學校提供，含清寒與弱勢學生專屬名額。</p></div>
+        </a>
+        <a class="cat" href="/app?fundingType=政府補助">
+          <div class="cat-img" style="background-image:url('https://images.unsplash.com/photo-1758876203195-69a51e4145f0?auto=format&fit=crop&w=800&q=70')"><span class="cat-count" data-type="政府補助"></span></div>
+          <div class="cat-body"><h3>政府補助</h3><p>中央與縣市的青年、創業、活動與研發補助計畫。</p></div>
+        </a>
+        <a class="cat" href="/app?fundingType=競賽獎金">
+          <div class="cat-img" style="background-image:url('https://images.unsplash.com/photo-1599592487441-df20e856f463?auto=format&fit=crop&w=800&q=70')"><span class="cat-count" data-type="競賽獎金"></span></div>
+          <div class="cat-body"><h3>比賽與競賽</h3><p>創業、設計、研究與社會創新競賽，個人或團隊都能參加。</p></div>
+        </a>
+        <a class="cat" href="/app?keyword=海外">
+          <div class="cat-img" style="background-image:url('https://images.unsplash.com/photo-1768069932751-a070c2ef5670?auto=format&fit=crop&w=800&q=70')"><span class="cat-count" id="overseasCount"></span></div>
+          <div class="cat-body"><h3>海外交流</h3><p>出國研修、志工服務、國際交流與海外圓夢計畫。</p></div>
+        </a>
+      </div>
+    </section>
+
+    <section class="soon-band" aria-labelledby="soonTitle">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2 id="soonTitle">即將截止</h2>
+            <p class="lead">這些項目的截止日已經公布，想申請要把握時間。</p>
+          </div>
+          <a class="text-link" href="/app?sort=deadlineAsc&openOnly=1">依截止日查看全部</a>
+        </div>
+        <ul class="soon" id="soonList">
+          <li class="soon-empty">正在載入…</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="wrap section" id="how" aria-labelledby="howTitle">
+      <div class="how">
+        <div class="how-img" role="img" aria-label="學生一起討論" style="background-image:url('https://images.unsplash.com/photo-1762512346988-045f4d5ad2b3?auto=format&fit=crop&w=1100&q=70')"></div>
+        <div>
+          <h2 id="howTitle">三步驟找到適合你的資源</h2>
+          <ol class="steps">
+            <li><div><h3>說出你的情況</h3><p>打一句話，例如「我是單親家庭的大學生，想找助學金」，網站會幫你套用篩選條件。</p></div></li>
+            <li><div><h3>看懂資格</h3><p>每筆都列出誰能申請、限定身分和截止日。登入後填好個人資料，可以自動比對你符不符合。</p></div></li>
+            <li><div><h3>到官方網站申請</h3><p>本站不代收申請。找到想申請的項目，到主辦單位網站送件，再回來記錄準備進度。</p></div></li>
+          </ol>
+          <p style="margin-top:24px"><a class="btn btn-sky" href="/app">開始查詢</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap" aria-labelledby="partnerTitle">
+      <div class="partner">
+        <div>
+          <h2 id="partnerTitle">你是主辦單位嗎？</h2>
+          <p>學校、基金會或企業想讓更多學生看到你的獎助或比賽，可以免費刊登，也能洽詢宣傳合作。</p>
+        </div>
+        <a class="btn btn-white" href="/app#b2b-section">了解合作方式</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="foot">
+        <div>
+          <a class="brand" href="/" aria-label="益起出發 首頁">
+            <span class="brand-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 11.3 21 3.5l-4.7 17.3-5.2-5.4-3 3.7v-5.6l9.8-9.4-10.6 6.9z" fill="#fff"/></svg></span>
+            <span><span class="brand-name">益起出發</span><span class="brand-en">Together For better</span></span>
+          </a>
+          <p style="margin:14px 0 0;max-width:30em">整理國內外獎助學金、政府補助與競賽資訊。本站不代收申請、不收費，也不需要提供身分證或銀行資料。金額與時程以主辦單位公告為準。</p>
+        </div>
+        <div>
+          <h4>找資源</h4>
+          <ul>
+            <li><a href="/app?fundingType=獎學金">獎助學金</a></li>
+            <li><a href="/app?fundingType=政府補助">政府補助</a></li>
+            <li><a href="/app?fundingType=競賽獎金">比賽與競賽</a></li>
+            <li><a href="/app?cash=noncash">非現金資源與榮譽</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>關於</h4>
+          <ul>
+            <li><a href="#how">怎麼用</a></li>
+            <li><a href="/app#b2b-section">主辦方合作</a></li>
+            <li><a href="/app#footer-section">訂閱電子報</a></li>
+            <li><a href="/app?login=1" id="footAccount">登入 / 註冊</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="copy">
+        <span>&copy; 2026 益起出發 Together For better</span>
+        <span>照片：Unsplash</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const getJson = async (url) => {
+      const res = await fetch(url, { credentials: 'same-origin' });
+      if (!res.ok) throw new Error(res.status);
+      return res.json();
+    };
+
+    async function init() {
+      if (location.protocol === 'file:') {
+        document.getElementById('soonList').innerHTML = '<li class="soon-empty">請用啟動檔打開網站，不要直接點兩下這個檔案。</li>';
+        return;
+      }
+      try {
+        const [meta, upcoming, overseas] = await Promise.all([
+          getJson('/api/grants/meta'),
+          getJson('/api/grants?sort=deadlineAsc&openOnly=1&pageSize=100'),
+          getJson('/api/grants?keyword=' + encodeURIComponent('海外') + '&pageSize=1'),
+        ]);
+
+        const open = upcoming.items.filter((g) => g.status === 'open');
+        document.getElementById('statTotal').textContent = meta.totalInDb;
+        document.getElementById('statVerified').textContent = meta.verifiedInDb;
+        document.getElementById('statSoon').textContent = open.filter((g) => g.daysLeft <= 14).length;
+
+        const counts = Object.fromEntries(meta.fundingTypes.map((t) => [t.value, t.count]));
+        document.querySelectorAll('[data-type]').forEach((el) => {
+          const n = counts[el.dataset.type];
+          el.textContent = n ? `${n} 筆` : '';
+          if (!n) el.remove();
+        });
+        document.getElementById('overseasCount').textContent = `${overseas.total} 筆`;
+
+        const list = document.getElementById('soonList');
+        if (open.length === 0) {
+          list.innerHTML = '<li class="soon-empty">目前沒有已公布截止日的項目，請到查詢頁看各項目的官方網站。</li>';
+        } else {
+          list.innerHTML = open.slice(0, 6).map((g) => {
+            const [, m, d] = g.deadline.split('-');
+            const left = g.daysLeft === 0 ? '今天截止' : `還有 ${g.daysLeft} 天`;
+            return `
+              <li><a href="/app?open=${encodeURIComponent(g.id)}">
+                <span class="date"><small>${Number(m)} 月</small><b>${Number(d)}</b></span>
+                <span>
+                  <h3>${esc(g.name)}</h3>
+                  <p class="org">${esc(g.organization)}</p>
+                  <span class="meta">
+                    <span class="tag${g.daysLeft <= 14 ? ' warn' : ''}">${left}</span>
+                    <span class="tag">${esc(g.amountShort)}</span>
+                  </span>
+                </span>
+              </a></li>`;
+          }).join('');
+        }
+      } catch {
+        document.getElementById('soonList').innerHTML = '<li class="soon-empty">連不上伺服器。請確認啟動網站的黑色視窗還開著，再重新整理。</li>';
+      }
+
+      try {
+        const { user } = await getJson('/api/auth/me');
+        if (user) {
+          for (const id of ['accountLink', 'footAccount']) {
+            const link = document.getElementById(id);
+            link.textContent = id === 'accountLink' ? user.name : '我的帳號';
+            link.href = '/app?account=1';
+          }
+        }
+      } catch {}
+    }
+    init();
+  </script>
+</body>
+</html>

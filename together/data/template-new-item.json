@@ -1,0 +1,41 @@
+{
+  "id": "SCH-15",
+  "name": "（獎助名稱）",
+  "organization": "（主辦單位）",
+  "fundingType": "獎學金",
+  "category": "企業文教 / 慈善基金會",
+  "fields": [
+    "不限"
+  ],
+  "applicants": [
+    "個人"
+  ],
+  "schools": [
+    "不限"
+  ],
+  "departments": [
+    "不限"
+  ],
+  "years": [
+    "不限"
+  ],
+  "identities": [
+    "清寒/經濟弱勢"
+  ],
+  "regions": [
+    "不限"
+  ],
+  "stages": [
+    "不限"
+  ],
+  "expenses": [
+    "學費",
+    "生活費"
+  ],
+  "amountMax": 30000,
+  "payoutTiming": "核定後",
+  "deadline": "2027-03-31",
+  "description": "適用對象：大專在學生｜資格：家境清寒，學期平均 70 分以上｜金額：每名 3 萬元｜時程：每年 3 月受理｜提醒：需附低收或中低收證明",
+  "url": "https://（官方網址）",
+  "verifiedAt": "2026-11-22"
+}

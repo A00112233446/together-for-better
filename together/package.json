@@ -1,0 +1,13 @@
+{
+  "name": "together-for-better",
+  "version": "1.0.0",
+  "description": "益起出發 Together For better：獎助學金、政府補助與競賽查詢平台",
+  "main": "server.js",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
