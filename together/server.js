@@ -30,6 +30,7 @@ const TRACKER_STATUSES = ['想申請', '準備中', '已送件', '已錄取', '�
 
 // 依資料 id 的前綴分組（例如 TW-01 → TW）
 const GROUPS = {
+  MED: { label: '醫學生專區', icon: 'fa-user-doctor', cover: 'from-rose-700 via-sky-800 to-navy-900' },
   TW: { label: '台灣補助與競賽', icon: 'fa-landmark', cover: 'from-navy-900 via-navy-800 to-sky-600' },
   SCH: { label: '獎助學金', icon: 'fa-hand-holding-heart', cover: 'from-sky-600 via-blue-800 to-navy-950' },
   ESG: { label: '永續淨零', icon: 'fa-leaf', cover: 'from-teal-700 via-sky-800 to-navy-900' },
