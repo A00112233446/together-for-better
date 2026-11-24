@@ -701,7 +701,7 @@
               <span id="modalAmount" class="text-base sm:text-lg font-extrabold text-sky-600"></span>
             </div>
             <div>
-              <span class="text-[11px] text-slate-500 block">撥款時間</span>
+              <span id="modalPayoutTitle" class="text-[11px] text-slate-500 block">撥款時間</span>
               <span id="modalPayout" class="text-base sm:text-lg font-extrabold text-navy-900"></span>
             </div>
             <div class="col-span-2 sm:col-span-1 border-t sm:border-t-0 pt-2 sm:pt-0 border-sky-100">
@@ -1077,12 +1077,37 @@
         if (seq !== requestSeq) return; // 已經有更新的請求，丟掉舊結果
         lastResult = data;
         state.page = data.page;
+        applyFacets(data.facets);
         renderResults();
         updateInspector(query, data);
       } catch (err) {
         if (seq !== requestSeq) return;
         showLoadError(err.message);
       }
+    }
+
+    // 依目前篩選結果更新各選項的筆數；0 筆的選項先藏起來（目前選中的除外）
+    function applyFacets(facets) {
+      if (!facets) return;
+      const update = (selector, attr, facet, current) => {
+        document.querySelectorAll(selector).forEach((el) => {
+          const value = el.dataset[attr] || '';
+          const count = value ? facet.counts[value] || 0 : facet.total;
+          const label = el.querySelector('.facet-count');
+          if (label) label.textContent = `(${count})`;
+          el.classList.toggle('hidden', Boolean(value) && count === 0 && value !== current);
+        });
+      };
+      update('.funding-tab', 'funding', facets.fundingType, state.fundingType);
+      update('.group-tab', 'group', facets.group, state.group);
+      Array.from($('filterCash').options).forEach((opt) => {
+        const count = opt.value ? facets.cash.counts[opt.value] || 0 : facets.cash.total;
+        const base = opt.value ? cashLabel(opt.value) : '全部';
+        opt.textContent = `${base}（${count}）`;
+        const hide = Boolean(opt.value) && count === 0 && opt.value !== state.cash;
+        opt.hidden = hide;
+        opt.disabled = hide;
+      });
     }
 
     function refresh({ resetPage = true } = {}) {
@@ -1129,7 +1154,7 @@
       // 資金類型頁籤
       $('fundingTypeTabs').innerHTML = [{ value: '', count: meta.totalInDb }, ...meta.fundingTypes].map((o) => `
         <button data-funding="${esc(o.value)}" onclick="setFilter('fundingType', ${arg(o.value)})" class="funding-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm whitespace-nowrap transition">
-          ${o.value ? esc(o.value) : '全部'} <span class="opacity-60">(${o.count})</span>
+          ${o.value ? esc(o.value) : '全部'} <span class="facet-count opacity-60">(${o.count})</span>
         </button>`).join('');
 
       // 資料分類
@@ -1137,7 +1162,7 @@
         <span class="text-[11px] font-bold text-slate-500 mr-1"><i class="fa-solid fa-landmark text-sky-600 mr-1"></i>資料分類：</span>
         ${[{ value: '', label: '全部', count: meta.totalInDb, icon: '' }, ...meta.groups].map((g) => `
           <button data-group="${esc(g.value)}" onclick="setFilter('group', ${arg(g.value)})" class="group-tab px-2.5 py-1 rounded-lg text-xs transition">
-            ${g.icon ? `<i class="fa-solid ${esc(g.icon)} mr-1"></i>` : ''}${esc(g.label)} (${g.count})
+            ${g.icon ? `<i class="fa-solid ${esc(g.icon)} mr-1"></i>` : ''}${esc(g.label)} <span class="facet-count">(${g.count})</span>
           </button>`).join('')}`;
 
       // 四個下拉選單
@@ -1145,7 +1170,7 @@
         $(id).innerHTML = `<option value="">${allLabel}</option>` +
           options.map((o) => `<option value="${esc(o.value)}">${esc(o.value)}（${o.count}）</option>`).join('');
       };
-      $('filterCash').innerHTML = '<option value="">全部</option>' + meta.cashTypes.map((c) => `<option value="${esc(c.value)}">${esc(c.label)}（${c.count}）</option>`).join('');
+      $('filterCash').innerHTML = '<option value="">全部</option>' + meta.cashTypes.filter((c) => c.count > 0).map((c) => `<option value="${esc(c.value)}">${esc(c.label)}（${c.count}）</option>`).join('');
       fillSelect('filterApplicant', '全部申請者', meta.applicants);
       fillSelect('filterIdentity', '不限', meta.identities);
       fillSelect('filterRegion', '全部地區', meta.regions);
@@ -1476,7 +1501,7 @@
         ? 'px-3 py-1.5 rounded-lg border border-sky-500 bg-sky-500 text-white font-bold transition'
         : 'px-3 py-1.5 rounded-lg border border-slate-200 hover:border-sky-400 text-slate-700 transition';
       const sections = [
-        ['cash', '資金性質', 'fa-coins', meta.cashTypes],
+        ['cash', '資金性質', 'fa-coins', meta.cashTypes.filter((c) => c.count > 0)],
         ['fundingType', '資金類型', 'fa-tags', meta.fundingTypes.map((o) => ({ ...o, label: o.value }))],
         ['group', '資料分類', 'fa-landmark', meta.groups],
         ['applicant', '誰要申請', 'fa-user', meta.applicants.map((o) => ({ ...o, label: o.value }))],
@@ -1588,8 +1613,9 @@
       $('modalAmount').className = `text-base sm:text-lg font-extrabold ${g.cash === 'grant' ? 'text-sky-600' : g.cash === 'equity' ? 'text-indigo-700' : 'text-slate-700'}`;
       $('modalCashBadge').textContent = g.isCategory ? `類別導覽・${g.cashLabel}` : g.cashLabel;
       $('modalCashBadge').className = `inline-block px-2 py-0.5 rounded-md font-bold mr-1.5 border ${amountStyle(g)}`;
-      $('modalNature').textContent = g.nature || (g.isCategory ? '這筆是同類型比賽的整理，不是單一賽事，詳細請看各比賽公告。' : '');
+      $('modalNature').textContent = g.extraNote || g.nature || (g.isCategory ? '這筆是同類型比賽的整理，不是單一賽事，詳細請看各比賽公告。' : '');
       $('modalPayout').textContent = g.payoutTiming;
+      $('modalPayoutTitle').textContent = g.payoutTitle || '撥款時間';
       $('modalDeadline').textContent = deadlineText(g, true);
 
       // 有原文就顯示原文（新資料的寫法比較完整），沒有就顯示統一後的分類
@@ -1707,7 +1733,7 @@
       }
 
       if (g.years.some((y) => y !== '不限')) add('❓', '年級', `限 ${g.years.join('、')}`);
-      if (g.cash === 'equity') add('⚠️', '資金性質', '這是股權投資，要出讓公司股份，不是無償補助');
+      if (g.cash === 'equity') add('⚠️', '資金性質', '這是創業投資，要出讓公司股份，不是送的錢');
       else if (g.cash === 'noncash') add('❓', '資金性質', `不是現金：${g.nature || g.amountLong}`);
       if (g.isCategory) add('❓', '類型', '這筆是同類比賽的整理，請到連結裡挑選實際要參加的比賽，再看該比賽的資格');
 
