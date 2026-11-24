@@ -323,10 +323,6 @@
         <div id="fundingTypeTabs" class="flex flex-wrap items-center gap-1.5"></div>
 
         <div class="flex items-center justify-end gap-2">
-          <button onclick="toggleCodeInspector()" class="px-3 py-2 rounded-xl border border-sky-200 bg-white hover:bg-sky-50 text-navy-800 text-xs font-bold transition inline-flex items-center gap-1.5" title="檢視送給後端的 API 請求">
-            <i class="fa-solid fa-code text-sky-600"></i>
-            <span class="hidden sm:inline">API 檢視</span>
-          </button>
 
           <button onclick="openAdvFilterModal()" class="px-3.5 py-2 rounded-xl border border-sky-200 bg-sky-50/70 hover:bg-sky-100 text-navy-900 text-xs sm:text-sm font-bold transition inline-flex items-center gap-1.5">
             <i class="fa-solid fa-sliders text-sky-600"></i>
@@ -705,7 +701,7 @@
               <span id="modalAmount" class="text-base sm:text-lg font-extrabold text-sky-600"></span>
             </div>
             <div>
-              <span class="text-[11px] text-slate-500 block">撥款時間</span>
+              <span id="modalPayoutTitle" class="text-[11px] text-slate-500 block">撥款時間</span>
               <span id="modalPayout" class="text-base sm:text-lg font-extrabold text-navy-900"></span>
             </div>
             <div class="col-span-2 sm:col-span-1 border-t sm:border-t-0 pt-2 sm:pt-0 border-sky-100">
@@ -1592,8 +1588,9 @@
       $('modalAmount').className = `text-base sm:text-lg font-extrabold ${g.cash === 'grant' ? 'text-sky-600' : g.cash === 'equity' ? 'text-indigo-700' : 'text-slate-700'}`;
       $('modalCashBadge').textContent = g.isCategory ? `類別導覽・${g.cashLabel}` : g.cashLabel;
       $('modalCashBadge').className = `inline-block px-2 py-0.5 rounded-md font-bold mr-1.5 border ${amountStyle(g)}`;
-      $('modalNature').textContent = g.nature || (g.isCategory ? '這筆是同類型比賽的整理，不是單一賽事，詳細請看各比賽公告。' : '');
+      $('modalNature').textContent = g.extraNote || g.nature || (g.isCategory ? '這筆是同類型比賽的整理，不是單一賽事，詳細請看各比賽公告。' : '');
       $('modalPayout').textContent = g.payoutTiming;
+      $('modalPayoutTitle').textContent = g.payoutTitle || '撥款時間';
       $('modalDeadline').textContent = deadlineText(g, true);
 
       // 有原文就顯示原文（新資料的寫法比較完整），沒有就顯示統一後的分類
@@ -1711,7 +1708,7 @@
       }
 
       if (g.years.some((y) => y !== '不限')) add('❓', '年級', `限 ${g.years.join('、')}`);
-      if (g.cash === 'equity') add('⚠️', '資金性質', '這是股權投資，要出讓公司股份，不是無償補助');
+      if (g.cash === 'equity') add('⚠️', '資金性質', '這是創業投資，要出讓公司股份，不是送的錢');
       else if (g.cash === 'noncash') add('❓', '資金性質', `不是現金：${g.nature || g.amountLong}`);
       if (g.isCategory) add('❓', '類型', '這筆是同類比賽的整理，請到連結裡挑選實際要參加的比賽，再看該比賽的資格');
 
